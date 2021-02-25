@@ -1,5 +1,8 @@
 
-#Canvas Course Details
+# Canvas Course Details
+
+> THIS IS A WIP PROJECT
+> Questions? Talk to Alison :) 
 
 Given a course id, extracts details of course including:
 

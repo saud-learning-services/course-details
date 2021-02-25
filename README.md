@@ -20,14 +20,17 @@ Given a course id, extracts details of course including:
 
 ## Use
 
-### First Time
+### Computer Setup
 
 1. We use conda, and suggest miniconda for your projects: [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html).
 2. We also like VSCode: [Install VSCode](https://code.visualstudio.com/)
-3. Clone this project
-4. Create the environment `canvas-get-course-details` (in terminal) 
+3. You also need to have Git installed. We like [GitHub Desktop](https://desktop.github.com/) if you aren't familiar with terminal
+
+### Project Setup
+1. Clone this project
+2. Create the environment `canvas-get-course-details` (in terminal) 
 > `$ conda env create -f environment.yml`
-5. In this project folder (canvas-course-details), create a .env file with the following, save in canvas-course-details folder
+3. In this project folder (canvas-course-details), create a .env file with the following, save in canvas-course-details folder
 ```
 COURSE_ID = your_course_id
 API_URL = 'https://ubc.instructure.com'

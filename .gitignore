@@ -1,0 +1,9 @@
+*.ipynb_checkpoints/
+output/*.csv
+.DS_Store
+.env
+Untitled.ipynb
+
+# don't keep the output data
+output/*
+!output/.gitkeep

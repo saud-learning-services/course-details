@@ -21,7 +21,7 @@ Given a course id, extracts details of course including:
 ## Use
 ### Computer Setup
 
-1. We use conda, and suggest miniconda for your projects: [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html).
+1. We use conda, and suggest miniconda for your projects: [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html) -> use the 'pkg' version if you are unfamiliar with bash
 2. We also like VSCode: [Install VSCode](https://code.visualstudio.com)
 3. You also need to have Git installed. We like [GitHub Desktop](https://desktop.github.com/) if you aren't familiar with terminal
 

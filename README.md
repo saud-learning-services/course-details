@@ -6,7 +6,15 @@
 
 Given a course id, extracts details of course including:
 
-## Skeleton
+## Goals
+3 levels of "data" 
+1. Skeleton 
+2. Course Details
+3. Student Details
+4. Student Interaction -> outside of scope of API data (aspirational)
+
+## Implemented Data Structures
+### Skeleton
 - assignments
 - quizzes
 - pages
@@ -14,17 +22,20 @@ Given a course id, extracts details of course including:
 - tabs (navigation)
 - external tools
 - features
-- discussion_topics *WIP*
+- discussion_topics
 - modules
 - module_items
 - files
 
-## Goals
-3 levels of "data" 
-1. Skeleton 
-2. Course Details
-3. Student Details
-4. Student Interaction -> outside of scope of API data (aspirational)
+### Course Details
+- page links *TODO*
+- quiz details *TODO*
+- assignment details *TODO*
+### Student Details
+- student discussion responses *TODO*
+- student quiz submissions *TODO*
+- student assignment submissions *TODO*
+
 
 ![shows relationship between scope](img/simple_project_scope.png)
 

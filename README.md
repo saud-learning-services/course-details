@@ -6,6 +6,7 @@
 
 Given a course id, extracts details of course including:
 
+## Skeleton
 - assignments
 - quizzes
 - pages
@@ -17,6 +18,15 @@ Given a course id, extracts details of course including:
 - modules
 - module_items
 - files
+
+## Goals
+3 levels of "data" 
+1. Skeleton 
+2. Course Details
+3. Student Details
+4. Student Interaction -> outside of scope of API data (aspirational)
+
+![shows relationship between scope](img/simple_project_scope.png)
 
 ## Use
 ### Computer Setup

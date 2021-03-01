@@ -7,3 +7,7 @@ Untitled.ipynb
 # don't keep the output data
 output/*
 !output/.gitkeep
+
+#don't keep the input data
+input/*
+!input/.gitkeep

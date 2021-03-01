@@ -36,6 +36,8 @@ Given a course id, extracts details of course including:
 - student quiz submissions *TODO*
 - student assignment submissions *TODO*
 
+### Student Interaction
+- *TODO*: A user can download student interaction data in Canvas from New Analytics. Given that the data is downloaded consistently (Canvas only has 27 days in New Analytics), and stored in `given folder`, the goal is to be able to combine student interaction with other course and student data for a "full picture" of the course and its activity. 
 
 ![shows relationship between scope](img/simple_project_scope.png)
 

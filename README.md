@@ -81,7 +81,7 @@ In terminal:
    > `$ python src/get_course_data.py` 
 
 ## 🌟 Acknowledgements & Contributions
-This project relies heavily on the [CanvasAPI](https://github.com/ucfopen/canvasapi) python library from [The University of Central Florida's](https://ucfopen.github.io/) open software project - UCF Open.
+This project relies heavily on the [CanvasAPI](https://github.com/ucfopen/canvasapi) python library from The University of Central Florida's open source software projects - [UCF Open](https://ucfopen.github.io/).
 
 ### Contributers
 

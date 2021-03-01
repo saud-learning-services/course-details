@@ -79,3 +79,12 @@ In terminal:
    
    iii. Run the script! (In terminal:)
    > `$ python src/get_course_data.py` 
+
+## 🌟 Acknowledgements & Contributions
+This project relies heavily on the [CanvasAPI](https://github.com/ucfopen/canvasapi) python library from [The University of Central Florida's](https://ucfopen.github.io/) open software project - UCF Open.
+
+### Contributers
+
+[**Sauder Learning Services**](https://www.sauder.ubc.ca/about-ubc-sauder/learning-services/people)
+- [Marko Prodanovic](https://github.com/markoprodanovic), Data Analyst & Media Specialist
+- [Alison Myers](https://github.com/alisonmyers), Research Analyst

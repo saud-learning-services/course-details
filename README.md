@@ -20,7 +20,7 @@ Given a course id, extracts details of course including:
 - pages
 - enrollments
 - tabs (navigation)
-- external tools
+- *external tools* 
 - features
 - discussion_topics
 - modules

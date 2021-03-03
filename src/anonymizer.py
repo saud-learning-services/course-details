@@ -12,15 +12,21 @@ load_dotenv()
 # Canvas output
 #   enrollments.csv -> id, user_id, grades, sis_user_id, html_url, user
 # User input
-#   any analytics files -> sectionName	globalStudentId	studentName	studentSisId
+#   any analytics files -> globalStudentId	studentName	studentSisId
 # create 
 
 # create a new output folder course_id-anon
 # copy the data into that folder
 # apply anonymization to necessary files
+# create deanonymizer and script for denonymizing
 
+def hash_it(string_obfuscate, original_string):
+    # test byte hash sha 256
+    hash_object = hashlib.sha256(f'{original_string}{string_obfuscate}'.encode())
+    hex_dig = hash_object.hexdigest()
+    return(new_string)
 
-def anonymize_data(course_id, string_for_hash, file_name, columns_to_mask, columns_to_drop):
+def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, columns_to_drop):
     """[summary]
 
     Args:
@@ -31,10 +37,10 @@ def anonymize_data(course_id, string_for_hash, file_name, columns_to_mask, colum
         columns_to_drop ([type]): columns to drop because provide too much detail
     """    
     
-
-
-    #
-    return
+    df = pd.read_csv(f'output/{course_id}/file_name')
+    df['canvas_id_anon'] = df[id_column_to_mask].apply(lambda x: hash_it)
+    print(df)
+    return(df)
 
 def confirm_anonymizer():
     #TODO - create string in text file for safe keeping
@@ -93,11 +99,10 @@ def main():
     check_for_data(f'output/{COURSE_ID}')
     string_obfuscate = confirm_anonymizer()
 
-# test byte hash sha 256
-    hash_object = hashlib.sha256(f'{1001}{string_obfuscate}'.encode())
-    hex_dig = hash_object.hexdigest()
-    print(hex_dig)
+
 
 if __name__ == "__main__":
     # execute only if run as a script
-    main()
+    # main()
+    string_obfuscate = confirm_anonymizer()
+    anonymize_data(10456, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'sis_user_id', 'html_url', 'user'])

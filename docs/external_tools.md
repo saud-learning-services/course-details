@@ -6,7 +6,7 @@ Nothing returned in test course (10456)
 https://canvas.instructure.com/doc/api/external_tools.html
 
 
-```json
+```
 No Object Listed...
 
 API for accessing and configuring external tools on accounts and courses. "External tools" are IMS LTI links: http://www.imsglobal.org/developers/LTI/index.cfm

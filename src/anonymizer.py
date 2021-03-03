@@ -13,7 +13,7 @@ load_dotenv()
 #   enrollments.csv -> id, user_id, grades, sis_user_id, html_url, user
 # User input
 #   any analytics files -> sectionName	globalStudentId	studentName	studentSisId
-
+# create 
 
 # create a new output folder course_id-anon
 # copy the data into that folder

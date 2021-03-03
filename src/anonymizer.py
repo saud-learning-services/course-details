@@ -5,6 +5,8 @@ from termcolor import cprint
 from interface import shut_down, print_success
 from dotenv import load_dotenv
 import hashlib
+import pandas as pd
+from pathlib import Path
 
 load_dotenv()
 
@@ -24,7 +26,7 @@ def hash_it(string_obfuscate, original_string):
     # test byte hash sha 256
     hash_object = hashlib.sha256(f'{original_string}{string_obfuscate}'.encode())
     hex_dig = hash_object.hexdigest()
-    return(new_string)
+    return(hex_dig)
 
 def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, columns_to_drop):
     """[summary]
@@ -36,9 +38,14 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
         columns_to_mask ([type]): columns where hash needs to be applied
         columns_to_drop ([type]): columns to drop because provide too much detail
     """    
+    output_folder = f'output/{course_id}/anon/'
+    Path(output_folder).mkdir(parents=True, exist_ok=True)
+
+    df = pd.read_csv(f'output/{course_id}/{file_name}')
+    df = df.drop(columns_to_drop, axis=1)
+    df['canvas_id_anon'] = df[id_column_to_mask].apply(lambda x: hash_it(string_for_hash, x))
     
-    df = pd.read_csv(f'output/{course_id}/file_name')
-    df['canvas_id_anon'] = df[id_column_to_mask].apply(lambda x: hash_it)
+    df.to_csv(f'{output_folder}/{file_name}')
     print(df)
     return(df)
 

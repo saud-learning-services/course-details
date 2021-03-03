@@ -3,6 +3,7 @@ output/*.csv
 .DS_Store
 .env
 Untitled.ipynb
+*.pyc
 
 # don't keep the output data
 output/*

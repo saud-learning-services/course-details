@@ -64,23 +64,31 @@ Creating a .env file in VSCode is easy. in the File Explorer right click, add a 
 ![image_of_env_file](img/create_env_file.png)
 
 ### Every Time
-1. Make sure you have set `your_course_id` in the .env file
-2. Create a new token and add it to API_TOKEN in .env
+1. This project is under active development -> Make sure you've pulled the latest version
+2. Make sure you have set `your_course_id` in the .env file
+3. Create a new token and add it to API_TOKEN in .env
 
 ![image of how to get a token](img/create_a_token.png)
 
 > i.e `API_TOKEN = 'some string here'`
 
-3. Run the script
+4. Run the script
 In terminal:
    i. Make sure you are in the right directory (if you opened the folder in vscode and see the project files in the explorer, then you are in the right directory) - check with the command:
    > `$ pwd`
+
+   if you are not in the right directory, you can use `cd` in terminal to navigate, for example if the project is in Documents/GitHub/course-details
+
+   > `$ cd "Documents/GitHub/course-details"` 
    
    ii. Activate the environment
+   > `$ conda deactivate`
    > `$ conda activate canvas-get-course-details`
    
    iii. Run the script! (In terminal:)
    > `$ python src/get_course_data.py` 
+
+If all goes well, you should see Hello <your_name_here>! and a new folder in the output with the given course_id and the data. 
 
 ## 🌟 Acknowledgements & Contributions
 This project relies heavily on the [CanvasAPI](https://github.com/ucfopen/canvasapi) python library from The University of Central Florida's open source software projects - [UCF Open](https://ucfopen.github.io/).

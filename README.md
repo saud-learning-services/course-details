@@ -20,7 +20,7 @@ Given a course id, extracts details of course including:
 - pages
 - enrollments
 - tabs (navigation)
-- external tools
+- *external tools* 
 - features
 - discussion_topics
 - modules
@@ -45,7 +45,7 @@ Given a course id, extracts details of course including:
 ### Computer Setup
 
 1. We use conda, and suggest miniconda for your projects: [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html) -> whichever the latest 3.x version is, use the 'pkg' version if you are unfamiliar with bash
-2. We also like VSCode: [Install VSCode](https://code.visualstudio.com)
+2. We also like VSCode: [Install VSCode](https://code.visualstudio.com), and the [Python Extension](https://code.visualstudio.com/docs/python/python-tutorial#_prerequisites)
 3. You also need to have Git installed. We like [GitHub Desktop](https://desktop.github.com/) if you aren't familiar with terminal
 
 ### Project Setup

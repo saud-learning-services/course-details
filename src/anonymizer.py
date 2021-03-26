@@ -10,9 +10,20 @@ from pathlib import Path
 
 load_dotenv()
 
+""" The goal of this script is to handle anonymization of student data.
+    If used, will create an anon folder given a course id,
+    this folder will contain anonymized data as well as records of anonymization 
+    these records SHOULD NOT BE SHARED (or else the data is no longer anonymous).   
+
+    It handles:
+        enrollments 
+            id_anon -> id
+            dropped_columns -> user_id, grades, sis_user_id, html_url, user
+"""
+
 # TO ANONYMIZE
 # Canvas output
-#   enrollments.csv -> id, user_id, grades, sis_user_id, html_url, user
+#   enrollments.csv -> id, 
 # User input
 #   any analytics files -> globalStudentId	studentName	studentSisId
 # create 
@@ -43,11 +54,17 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
 
     df = pd.read_csv(f'output/{course_id}/{file_name}')
     df = df.drop(columns_to_drop, axis=1)
-    df['canvas_id_anon'] = df[id_column_to_mask].apply(lambda x: hash_it(string_for_hash, x))
-    
+    df[f'{id_column_to_mask}_anon'] = df[id_column_to_mask].apply(lambda x: hash_it(string_for_hash, x))
+    df = df.drop(id_column_to_mask, axis=1)
+
     df.to_csv(f'{output_folder}/{file_name}')
     print(df)
     return(df)
+
+def copy_to_anon_folder(course_id, file_name):
+    #TODO - implement
+    output_folder = f'output/{course_id}/anon/'
+    Path(output_folder).mkdir(parents=True, exist_ok=True)
 
 def confirm_anonymizer():
     #TODO - create string in text file for safe keeping
@@ -112,4 +129,6 @@ if __name__ == "__main__":
     # execute only if run as a script
     # main()
     string_obfuscate = confirm_anonymizer()
+
+    #enrollments
     anonymize_data(10456, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'sis_user_id', 'html_url', 'user'])

@@ -5,7 +5,7 @@ from termcolor import cprint
 import sys
 
 
-def print_error(msg):
+def print_unexpected(msg):
     """ Prints the error message without shutting down the script
     Args:
         msg (string): Message to print before continuing execution

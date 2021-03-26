@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 from os import walk
 import re
-from interface import print_error, print_success
+from interface import print_unexpected, print_success
 
 def create_folder(folder_path):
     print(f'creating {folder_path}')
@@ -36,9 +36,9 @@ def check_for_data(folder_path, file_regex=None):
                 return(True)
             
             else:
-                print_error(f'Folder found, but no match of files')
+                print_unexpected(f'Folder found, but no match of files')
                 return(False)
 
     else:
-        print_error(f'{folder} not found...')
+        print_unexpected(f'{folder} not found...')
         return(False)

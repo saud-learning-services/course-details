@@ -107,7 +107,7 @@ def main():
     course = canvas.get_course(COURSE_ID)
     
     #create an output folder if it doesn't exist
-    output_folder = f'output/{COURSE_ID}'
+    output_folder = f'data/{COURSE_ID}'
     Path(output_folder).mkdir(parents=True, exist_ok=True)
    
     #create output

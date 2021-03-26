@@ -3,6 +3,7 @@ from os import walk
 import sys
 import re
 from termcolor import cprint
+from helpers import check_for_data
 from interface import shut_down, print_success, confirm_strict
 from dotenv import load_dotenv
 import hashlib
@@ -119,27 +120,6 @@ def get_course_code():
 # does a folder exist in output called COURSE_ID
 # is there any file in there that.. 
 # does a folder exist in the input called COURSE_ID
-
-def check_for_data(folder, file_regex=None):
-    """given a folder and a file string to match
-        determines whether the folder exists and at least 
-        one file exists matching that regex
-
-    Args:
-        folder (str): the string of the folder 
-        file_regex (str): some string to match any file if given
-    """    
-
-    # check that the folder exists
-    
-    if os.path.exists(folder):
-        if file_regex==None:
-            print_success(f'{folder} exists!')
-            return(True)
-    else:
-        print(f'{folder} not found, exiting')
-        return(False)
-
 
 
 def main():

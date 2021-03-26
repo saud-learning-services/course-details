@@ -10,7 +10,7 @@ def print_error(msg):
     Args:
         msg (string): Message to print before continuing execution
     """
-    cprint(f'\n{msg}\n', 'red')
+    cprint(f'\n{msg}\n', 'yellow')
 
 def print_success(msg):
     """ Prints the success message without shutting down the script

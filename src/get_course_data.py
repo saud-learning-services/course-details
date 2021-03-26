@@ -5,6 +5,7 @@ import sys
 from IPython.display import display, HTML
 from datetime import datetime
 from interface import shut_down, print_success, _create_csv
+from helpers import create_folder
 from dotenv import load_dotenv
 import os
 from pathlib import Path
@@ -110,11 +111,11 @@ def main():
     
     #create an output folder for api data if it doesn't exist
     output_folder = f'data/{COURSE_ID}/raw/api_output'
-    Path(output_folder).mkdir(parents=True, exist_ok=True)
+    create_folder(output_folder)
    
     #create a new analytics input folder
     new_analytics_folder = f'data/{COURSE_ID}/raw/new_analytics_input'
-    Path(new_analytics_folder).mkdir(parents=True, exist_ok=True)
+    create_folder(new_analytics_folder)
 
     #create output
     get_course_data(course, output_folder)

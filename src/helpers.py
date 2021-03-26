@@ -28,14 +28,20 @@ def _create_csv(df, output_name):
 
 
 def _confirm_strict(msg, to_return=None):
-    confirm = input(
-        f'{msg} [y/n]: \n')
 
-    if confirm == 'y' or confirm == 'Y':
-        return(to_return)
-    elif confirm == 'n' or confirm == 'N':
-        shut_down('Exiting...')
-    else:
-        shut_down('ERROR: Only accepted values are y and n')   
+    while True:
+        confirm = input(f'{msg} [Y/N]: \n')
+        confirm_upper = confirm.upper()
+        
+        if confirm_upper not in ('Y', "N"): 
+            print('Invalid entry, please enter Y or N')
+            continue
+        
+        else:
+            if confirm_upper == 'Y':
+                return(to_return)
+            elif confirm_upper == 'N':
+                shut_down('Exiting...')
+            break
 
 

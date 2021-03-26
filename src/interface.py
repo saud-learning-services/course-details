@@ -34,7 +34,7 @@ def shut_down(msg):
     """
     cprint(f'\n{msg}\n', 'red')
     print('Shutting down...')
-    sys.exit()
+    raise SystemExit()
 
 
 def _prompt_for_confirmation(user_name, course_name):
@@ -51,12 +51,5 @@ def _prompt_for_confirmation(user_name, course_name):
     print(f'COURSE:  {course_name}')
     print('\n')
 
-    confirm = input(
-    'Would you like to continue using the above information? [y/n]: \n')
-
-    if confirm == 'y' or confirm == 'Y':
-        return
-    elif confirm == 'n' or confirm == 'N':
-        shut_down('Exiting...')
-    else:
-        shut_down('ERROR: Only accepted values are y and n')            
+    _confirm_strict('Would you like to continue using the above information?')
+        

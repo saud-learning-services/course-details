@@ -31,7 +31,8 @@ def check_for_data(folder_path, file_regex=None):
             all_data_files = [i for i in filenames if re.search(pattern, i)]
 
             if len(all_data_files) > 0:
-                print_success(f'Files with match found: {all_data_files}')
+                printable_files = '\n\t-'.join(all_data_files)
+                print_success(f'Files with match found: \n\t-{printable_files}')
                 return(True)
             
             else:

@@ -3,7 +3,7 @@ from os import walk
 import sys
 import re
 from termcolor import cprint
-from helpers import check_for_data
+from helpers import check_for_data, _copy_to_folder
 from interface import shut_down, print_success, confirm_strict
 from dotenv import load_dotenv
 import hashlib
@@ -76,28 +76,7 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
     print(f'anon version created: {output_folder}/{file_name}')
     return(df)
 
-def _copy_to_folder(src_folder, dst_folder, file_name):
-    """[summary]
 
-    Args:
-        src_folder ([type]): [description]
-        dst_folder ([type]): [description]
-        file_name ([type]): [description]
-    """  
-    #TODO - implement
-    Path(dst_folder).mkdir(parents=True, exist_ok=True)
-
-    src_file = f'{src_folder}/{file_name}'
-    dst_file = f'{dst_folder}/{file_name}'
-
-    try:
-        copyfile(src_file, dst_file)
-        print(f'file copied to: {dst_file}')
-    
-    except Exception as e:
-        print(f'Error: {e}')
-
-    return
 
 def confirm_anonymizer():
     #TODO - create string in text file for safe keeping

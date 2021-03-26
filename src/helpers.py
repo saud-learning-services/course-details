@@ -42,3 +42,26 @@ def check_for_data(folder_path, file_regex=None):
     else:
         print_unexpected(f'FAIL: Folder, {folder_path}, not found...')
         return(False)
+
+def _copy_to_folder(src_folder, dst_folder, file_name):
+    """[summary]
+
+    Args:
+        src_folder ([type]): [description]
+        dst_folder ([type]): [description]
+        file_name ([type]): [description]
+    """  
+    #TODO - implement
+    Path(dst_folder).mkdir(parents=True, exist_ok=True)
+
+    src_file = f'{src_folder}/{file_name}'
+    dst_file = f'{dst_folder}/{file_name}'
+
+    try:
+        copyfile(src_file, dst_file)
+        print(f'file copied to: {dst_file}')
+    
+    except Exception as e:
+        print(f'Error: {e}')
+
+    return

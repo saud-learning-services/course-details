@@ -36,6 +36,22 @@ def shut_down(msg):
     print('Shutting down...')
     raise SystemExit()
 
+def confirm_strict(msg, to_return=None):
+
+    while True:
+        confirm = input(f'{msg} [Y/N]: \n')
+        confirm_upper = confirm.upper()
+        
+        if confirm_upper not in ('Y', "N"): 
+            print('Invalid entry, please enter Y or N')
+            continue
+        
+        else:
+            if confirm_upper == 'Y':
+                return(to_return)
+            elif confirm_upper == 'N':
+                shut_down('Exiting...')
+            break
 
 def _prompt_for_confirmation(user_name, course_name):
     """Prints user inputs to screen and asks user to confirm. Shuts down if user inputs
@@ -51,5 +67,5 @@ def _prompt_for_confirmation(user_name, course_name):
     print(f'COURSE:  {course_name}')
     print('\n')
 
-    _confirm_strict('Would you like to continue using the above information?')
+    confirm_strict('Would you like to continue using the above information?')
         

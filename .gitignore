@@ -12,3 +12,6 @@ output/*
 #don't keep the input data
 input/*
 !input/.gitkeep
+
+# test ipynb
+test.ipynb

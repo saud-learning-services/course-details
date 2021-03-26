@@ -1,4 +1,5 @@
 import os
+from os import walk
 import sys
 import re
 from termcolor import cprint
@@ -73,7 +74,7 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
 
     # create the output and return the dataframe
     df.to_csv(f'{output_folder}/{file_name}')
-    print(df)
+    print(f'anon version created: {output_folder}/{file_name}')
     return(df)
 
 def copy_to_anon_folder(course_id, file_name):
@@ -145,14 +146,26 @@ def check_for_data(folder, file_regex=None):
 
 def main():
     COURSE_ID = get_course_code()
-    check_for_data(f'output/{COURSE_ID}')
+    data_folder = f'output/{COURSE_ID}'
+    check_for_data(data_folder)
     string_obfuscate = confirm_anonymizer()
 
+    # get all files in data_folder
+    (_, _, filenames) = next(walk(data_folder))
+    all_data_files = [i for i in filenames if i.endswith('.csv')]
+
+    # files in data_folder to anonymize
+    files_to_anonymize = ['enrollments.csv']
+
+    # get the rest of the files, if not in files_to_anonymize, can run copy_to_anon_folder
+    files_no_anonymization = [i for i in all_data_files if i not in files_to_anonymize]
+    [copy_to_anon_folder(COURSE_ID, i) for i in files_no_anonymization]
+    
+    # ANONYMIZE 
     #enrollments
-    anonymize_data(10456, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'sis_user_id', 'html_url', 'user'])
+    anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'html_url', 'user'])
 
-    # Get the course ID
-
+    #
 
 
 if __name__ == "__main__":

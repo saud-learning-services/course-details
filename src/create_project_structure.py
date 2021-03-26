@@ -9,7 +9,7 @@ from helpers import create_folder, check_for_data
 
 
 if __name__ == "__main__":
-    COURSE_ID = 10456
+    COURSE_ID = input('PLEASE ENTER A COURSE ID: ')
 
     #folders that should already exist with data in them
     raw_api_data_folder = f'data/{COURSE_ID}/raw/api_output'

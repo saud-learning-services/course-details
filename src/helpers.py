@@ -5,9 +5,8 @@ import re
 from interface import print_unexpected, print_success
 
 def create_folder(folder_path):
-    print(f'creating {folder_path}')
     Path(folder_path).mkdir(parents=True, exist_ok=True)
-
+    return(f'creating {folder_path}')
 
 def check_for_data(folder_path, file_regex=None):
     """given a folder and a file string to match
@@ -23,7 +22,7 @@ def check_for_data(folder_path, file_regex=None):
     
     if os.path.exists(folder_path):
         if file_regex==None:
-            print_success(f'{folder_path} exists!')
+            print(f'{folder_path} exists!')
             return(True)
         else:
             pattern = re.compile(file_regex)
@@ -32,11 +31,11 @@ def check_for_data(folder_path, file_regex=None):
 
             if len(all_data_files) > 0:
                 printable_files = '\n\t-'.join(all_data_files)
-                print_success(f'Files with match found: \n\t-{printable_files}')
+                print(f'Files with match found: \n\t-{printable_files}')
                 return(True)
             
             else:
-                print_unexpected(f'Folder found, but no match of files')
+                print(f'Folder found, but no matching files.')
                 return(False)
 
     else:

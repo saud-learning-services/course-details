@@ -34,7 +34,7 @@ def shut_down(msg):
     """
     cprint(f'\n{msg}\n', 'red')
     print('Shutting down...')
-    raise SystemExit()
+    sys.exit()
 
 def confirm_strict(msg, to_return=None):
 

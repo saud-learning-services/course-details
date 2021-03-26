@@ -1,14 +1,12 @@
 *.ipynb_checkpoints/
-output/*.csv
 .DS_Store
 .env
 Untitled.ipynb
 *.pyc
 
-# don't keep the output data
-output/*
-!output/.gitkeep
+# don't track the data 
+data/*
+!data/.gitkeep
 
-#don't keep the input data
-input/*
-!input/.gitkeep
+# test ipynb
+test.ipynb

@@ -36,9 +36,9 @@ def check_for_data(folder_path, file_regex=None):
                 return(True)
             
             else:
-                print_unexpected(f'FAIL: Folder found, but no matching files.')
+                print_unexpected(f'FAIL: Folder {folder_path} found, but no matching files {file_regex}.')
                 return(False)
 
     else:
-        print_unexpected(f'FAIL: Folder, {folder}, not found...')
+        print_unexpected(f'FAIL: Folder, {folder_path}, not found...')
         return(False)

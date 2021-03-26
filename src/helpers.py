@@ -22,7 +22,7 @@ def check_for_data(folder_path, file_regex=None):
     
     if os.path.exists(folder_path):
         if file_regex==None:
-            print(f'{folder_path} exists!')
+            print_success(f'SUCCESS: Folder, {folder_path}, exists.')
             return(True)
         else:
             pattern = re.compile(file_regex)
@@ -31,13 +31,14 @@ def check_for_data(folder_path, file_regex=None):
 
             if len(all_data_files) > 0:
                 printable_files = '\n\t-'.join(all_data_files)
-                print(f'Files with match found: \n\t-{printable_files}')
+                #print(f'Files with match found: \n\t-{printable_files}')
+                print_success(f'SUCCESS: At least one file found!')
                 return(True)
             
             else:
-                print(f'Folder found, but no matching files.')
+                print_unexpected(f'FAIL: Folder found, but no matching files.')
                 return(False)
 
     else:
-        print_unexpected(f'{folder} not found...')
+        print_unexpected(f'FAIL: Folder, {folder}, not found...')
         return(False)

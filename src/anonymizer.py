@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 import hashlib
 import pandas as pd
 from pathlib import Path
+from shutil import copyfile
+from interface import confirm_strict
+
 
 load_dotenv()
 
@@ -41,31 +44,60 @@ def hash_it(string_obfuscate, original_string):
     return(hex_dig)
 
 def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, columns_to_drop):
-    """[summary]
+    """Given a file (found using course_id and file_name) will create an anon version of the file and return 
+     an anon df. 
 
     Args:
-        course_id ([type]): the course id (folder) to look in
-        string_for_hash ([type]): the string that will be used to hash all ids
-        file_name ([type]): the file to read and apply to
-        columns_to_mask ([type]): columns where hash needs to be applied
-        columns_to_drop ([type]): columns to drop because provide too much detail
+        course_id (int): the course id (folder) to look in
+        string_for_hash (str): the string that will be used to hash all ids
+        file_name (str): the file to read and apply to
+        columns_to_mask (list of str): columns where hash needs to be applied
+        columns_to_drop (list of str): columns to drop because provide too much detail
+
+    Returns:
+        df (dataframe): anonymized dataframe
+
+    Creates:
+        csv with given filename in new folder 'output/{course_id}/anon'
     """    
+
+    #create an anon output folder
     output_folder = f'output/{course_id}/anon/'
     Path(output_folder).mkdir(parents=True, exist_ok=True)
 
+    # read the filename given, mask identified columns drop identified columns, 
     df = pd.read_csv(f'output/{course_id}/{file_name}')
     df = df.drop(columns_to_drop, axis=1)
     df[f'{id_column_to_mask}_anon'] = df[id_column_to_mask].apply(lambda x: hash_it(string_for_hash, x))
     df = df.drop(id_column_to_mask, axis=1)
 
+    # create the output and return the dataframe
     df.to_csv(f'{output_folder}/{file_name}')
     print(df)
     return(df)
 
 def copy_to_anon_folder(course_id, file_name):
+    """[summary]
+
+    Args:
+        course_id ([type]): [description]
+        file_name ([type]): [description]
+    """    
     #TODO - implement
-    output_folder = f'output/{course_id}/anon/'
+    output_folder = f'output/{course_id}/anon'
     Path(output_folder).mkdir(parents=True, exist_ok=True)
+
+    src_file = f'output/{course_id}/{file_name}'
+    dst_file = f'{output_folder}/{file_name}'
+
+    try:
+        copyfile(src_file, dst_file)
+        print(f'file copied to anon: {dst_file}')
+    
+    except Exception as e:
+        print(f'Error: {e}')
+
+    return
 
 def confirm_anonymizer():
     #TODO - create string in text file for safe keeping
@@ -73,7 +105,7 @@ def confirm_anonymizer():
 
     cprint(f'\nConfirmation: {stringinput}\n', 'blue')
 
-    _confirm_strict('Would you like to continue using the above information?', stringinput)
+    confirm_strict('Would you like to continue using the above information?', stringinput)
 
 def get_course_code():
     try:
@@ -116,12 +148,13 @@ def main():
     check_for_data(f'output/{COURSE_ID}')
     string_obfuscate = confirm_anonymizer()
 
+    #enrollments
+    anonymize_data(10456, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'sis_user_id', 'html_url', 'user'])
+
+    # Get the course ID
+
 
 
 if __name__ == "__main__":
     # execute only if run as a script
-    # main()
-    string_obfuscate = confirm_anonymizer()
-
-    #enrollments
-    anonymize_data(10456, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'sis_user_id', 'html_url', 'user'])
+    main()

@@ -93,12 +93,17 @@ def get_course_data(course, output_path):
     module_items_df = pd.DataFrame(module_items)
     module_items_df.to_csv(f'{output_path}/module_items.csv')
 
+def create_new_project(COURSE_ID):
+
+
 def main():
     # establish canvas connection
     canvas, auth_header = create_canvas_object()
     
     #get the course
     COURSE_ID = os.getenv("COURSE_ID")
+
+    #create a project structure for the new course
     course = canvas.get_course(COURSE_ID)
     
     #create an output folder if it doesn't exist

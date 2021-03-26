@@ -36,7 +36,7 @@ load_dotenv()
 # apply anonymization to necessary files
 # create deanonymizer and script for denonymizing
 
-def hash_it(string_obfuscate, original_string):
+def _hash_it(string_obfuscate, original_string):
     # test byte hash sha 256
     hash_object = hashlib.sha256(f'{original_string}{string_obfuscate}'.encode())
     hex_dig = hash_object.hexdigest()
@@ -67,7 +67,7 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
     # read the filename given, mask identified columns drop identified columns, 
     df = pd.read_csv(f'output/{course_id}/{file_name}')
     df = df.drop(columns_to_drop, axis=1)
-    df[f'{id_column_to_mask}_anon'] = df[id_column_to_mask].apply(lambda x: hash_it(string_for_hash, x))
+    df[f'{id_column_to_mask}_anon'] = df[id_column_to_mask].apply(lambda x: _hash_it(string_for_hash, x))
     df = df.drop(id_column_to_mask, axis=1)
 
     # create the output and return the dataframe
@@ -75,23 +75,23 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
     print(f'anon version created: {output_folder}/{file_name}')
     return(df)
 
-def copy_to_anon_folder(course_id, file_name):
+def _copy_to_folder(src_folder, dst_folder, file_name):
     """[summary]
 
     Args:
-        course_id ([type]): [description]
+        src_folder ([type]): [description]
+        dst_folder ([type]): [description]
         file_name ([type]): [description]
-    """    
+    """  
     #TODO - implement
-    output_folder = f'output/{course_id}/anon'
-    Path(output_folder).mkdir(parents=True, exist_ok=True)
+    Path(dst_folder).mkdir(parents=True, exist_ok=True)
 
-    src_file = f'output/{course_id}/{file_name}'
-    dst_file = f'{output_folder}/{file_name}'
+    src_file = f'{src_folder}/{file_name}'
+    dst_file = f'{dst_folder}/{file_name}'
 
     try:
         copyfile(src_file, dst_file)
-        print(f'file copied to anon: {dst_file}')
+        print(f'file copied to: {dst_file}')
     
     except Exception as e:
         print(f'Error: {e}')
@@ -155,9 +155,9 @@ def main():
     # files in data_folder to anonymize
     files_to_anonymize = ['enrollments.csv']
 
-    # get the rest of the files, if not in files_to_anonymize, can run copy_to_anon_folder
+    # get the rest of the files, if not in files_to_anonymize, can run copy_to_folder
     files_no_anonymization = [i for i in all_data_files if i not in files_to_anonymize]
-    [copy_to_anon_folder(COURSE_ID, i) for i in files_no_anonymization]
+    [_copy_to_folder(COURSE_ID, i) for i in files_no_anonymization]
     
     # ANONYMIZE 
     #enrollments

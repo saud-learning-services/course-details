@@ -3,14 +3,12 @@ from os import walk
 import sys
 import re
 from termcolor import cprint
-from interface import shut_down, print_success
-import helpers
+from interface import shut_down, print_success, confirm_strict
 from dotenv import load_dotenv
 import hashlib
 import pandas as pd
 from pathlib import Path
 from shutil import copyfile
-from interface import confirm_strict
 
 
 load_dotenv()
@@ -164,8 +162,6 @@ def main():
     # ANONYMIZE 
     #enrollments
     anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'html_url', 'user'])
-
-    #
 
 
 if __name__ == "__main__":

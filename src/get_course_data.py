@@ -3,12 +3,10 @@ from canvasapi import Canvas
 import getpass
 import sys
 from IPython.display import display, HTML
-from helpers import _create_csv
 from datetime import datetime
-from interface import shut_down, print_success
+from interface import shut_down, print_success, _create_csv
 from dotenv import load_dotenv
 import os
-from termcolor import cprint
 from pathlib import Path
 
 load_dotenv()

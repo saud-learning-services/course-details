@@ -94,6 +94,8 @@ def get_course_data(course, output_path):
     module_items_df.to_csv(f'{output_path}/module_items.csv')
 
 def create_new_project(COURSE_ID):
+    # does something
+    return
 
 
 def main():
@@ -106,10 +108,14 @@ def main():
     #create a project structure for the new course
     course = canvas.get_course(COURSE_ID)
     
-    #create an output folder if it doesn't exist
-    output_folder = f'data/{COURSE_ID}'
+    #create an output folder for api data if it doesn't exist
+    output_folder = f'data/{COURSE_ID}/raw/api_output'
     Path(output_folder).mkdir(parents=True, exist_ok=True)
    
+    #create a new analytics input folder
+    new_analytics_folder = f'data/{COURSE_ID}/raw/new_analytics_input'
+    Path(new_analytics_folder).mkdir(parents=True, exist_ok=True)
+
     #create output
     get_course_data(course, output_folder)
 

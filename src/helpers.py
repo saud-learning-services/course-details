@@ -27,5 +27,15 @@ def _create_csv(df, output_name):
             continue
 
 
+def _confirm_strict(msg, to_return=None):
+    confirm = input(
+        f'{msg} [y/n]: \n')
+
+    if confirm == 'y' or confirm == 'Y':
+        return(to_return)
+    elif confirm == 'n' or confirm == 'N':
+        shut_down('Exiting...')
+    else:
+        shut_down('ERROR: Only accepted values are y and n')   
 
 

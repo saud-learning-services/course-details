@@ -3,6 +3,7 @@ import sys
 import re
 from termcolor import cprint
 from interface import shut_down, print_success
+import helpers
 from dotenv import load_dotenv
 import hashlib
 import pandas as pd
@@ -72,15 +73,7 @@ def confirm_anonymizer():
 
     cprint(f'\nConfirmation: {stringinput}\n', 'blue')
 
-    confirm = input(
-    'Would you like to continue using the above information? [y/n]: \n')
-
-    if confirm == 'y' or confirm == 'Y':
-        return(stringinput)
-    elif confirm == 'n' or confirm == 'N':
-        shut_down('Exiting...')
-    else:
-        shut_down('ERROR: Only accepted values are y and n')    
+    _confirm_strict('Would you like to continue using the above information?', stringinput)
 
 def get_course_code():
     try:

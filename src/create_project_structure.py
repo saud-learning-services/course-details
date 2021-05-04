@@ -1,5 +1,7 @@
 from interface import print_success, print_unexpected, shut_down
 from helpers import create_folder, check_for_data
+import glob
+import pandas as pd
 
 """ 
 Once data collected, this script will create a "project_folder"
@@ -38,20 +40,23 @@ def create_project_structure(course_id):
             print(f'\n\t-{msg_list}')
 
             #MOVE DATA TO COURSE_STRUCTURE
-            #assignments.csv 
-            #discussions.csv
-            #external_tools.csv
-            #features.csv
-            #files.csv
-            #module_items.csv
-            #modules.csv
-            #pages.csv
-            #quizzes.csv
-            #tabs
+            course_structure_files = ["assignments.csv", "discussions.csv", "external_tools.csv",
+            "features.csv", "files.csv", "module_items.csv", "modules.csv", "module_items.csv", "pages.csv",
+            "quizzes.csv", "tabs.csv"]
+
+            for i in course_structure_files:
+                try:
+                    _copy_to_folder(raw_api_data_folder, course_structure_folder, i)
+                except:
+                    print(f"error in copy of {i}")
 
             # MOVE TO USER_DATA
-            #enrollments.csv
-
+            user_data_files = ["enrollments.csv"]
+            for i in user_data_files:
+                try:
+                    _copy_to_folder(raw_api_data_folder, user_data_folder, i)
+                except:
+                    print(f"error in copy of {i}")
 
         else:
             print_unexpected(f'{raw_api_data_folder}: No csvs found, no project structure to create.')
@@ -62,6 +67,14 @@ def create_project_structure(course_id):
 
             # MOVE TO USER_DATA
             #combined new_analytics_input
+            analytics_files = glob.glob(f"{new_analytics_folder}/*.csv")
+            li = []
+            for filename in analytics_files:
+                df = pd.read_csv(filename)
+                li.append(df)
+
+            df = pd.concat(li, axis=0)
+            df.to_csv(f"{user_data_files}/new_analytics_user_data_combined.csv")
 
         else:
             print(f'{new_analytics_folder}: No csvs found.')

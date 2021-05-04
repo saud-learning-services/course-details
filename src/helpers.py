@@ -3,6 +3,7 @@ import os
 from os import walk
 import re
 from interface import print_unexpected, print_success
+from shutil import copyfile
 
 def create_folder(folder_path):
     Path(folder_path).mkdir(parents=True, exist_ok=True)

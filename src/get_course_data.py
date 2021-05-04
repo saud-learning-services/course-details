@@ -10,6 +10,9 @@ from dotenv import load_dotenv
 import os
 from pathlib import Path
 
+""" Creates the initial course data which will be output in data/COURSE_ID/raw/api_output 
+and creates a new_analytics_input folder for user
+"""
 load_dotenv()
 
 def create_canvas_object(): 

@@ -7,7 +7,7 @@ and reorganize data as appropriate.
 """
 # Given a course_id check that appropriate files exist
 # 1. raw/api_output
-# 2. new_analytics_input
+# 2. raw/new_analytics_input
 
 # create folder called project_data
 def create_project_structure(course_id):
@@ -36,14 +36,33 @@ def create_project_structure(course_id):
                 )
 
             print(f'\n\t-{msg_list}')
-            
+
+            #MOVE DATA TO COURSE_STRUCTURE
+            #assignments.csv 
+            #discussions.csv
+            #external_tools.csv
+            #features.csv
+            #files.csv
+            #module_items.csv
+            #modules.csv
+            #pages.csv
+            #quizzes.csv
+            #tabs
+
+            # MOVE TO USER_DATA
+            #enrollments.csv
+
+
         else:
             print_unexpected(f'{raw_api_data_folder}: No csvs found, no project structure to create.')
         
         print(f'\nATTEMPTING TO PARSE NEW ANALYTICS INPUT\n')
         if check_for_data(new_analytics_folder, './csv'):
             print(f'{new_analytics_folder}: New Analytics data found, compiling...')
-        
+
+            # MOVE TO USER_DATA
+            #combined new_analytics_input
+
         else:
             print(f'{new_analytics_folder}: No csvs found.')
 

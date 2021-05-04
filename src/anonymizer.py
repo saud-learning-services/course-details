@@ -58,15 +58,16 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
         df (dataframe): anonymized dataframe
 
     Creates:
-        csv with given filename in new folder 'output/{course_id}/anon'
+        csv with given filename in new folder 'output/{course_id}/anon' (.csv)
+        a file with the hash string (.txt)
     """    
 
     #create an anon output folder
-    output_folder = f'output/{course_id}/anon/'
+    output_folder = f'data/{course_id}/project_data_anonymized/'
     Path(output_folder).mkdir(parents=True, exist_ok=True)
 
     # read the filename given, mask identified columns drop identified columns, 
-    df = pd.read_csv(f'output/{course_id}/{file_name}')
+    df = pd.read_csv(f'data/{course_id}/project_data/{file_name}')
     df = df.drop(columns_to_drop, axis=1)
     df[f'{id_column_to_mask}_anon'] = df[id_column_to_mask].apply(lambda x: _hash_it(string_for_hash, x))
     df = df.drop(id_column_to_mask, axis=1)

@@ -52,7 +52,7 @@ Given a course id, extracts details of course including:
 1. Clone this project
 2. Create the environment `canvas-get-course-details` (in terminal) 
 > `$ conda env create -f environment.yml`
-1. In this project folder (course-details), create a .env file with the following, save in course-details folder
+3. In this project folder (course-details), create a .env file with the following, save in course-details folder
 ```
 COURSE_ID = your_course_id
 API_URL = 'https://ubc.instructure.com'
@@ -64,31 +64,39 @@ Creating a .env file in VSCode is easy. in the File Explorer right click, add a 
 ![image_of_env_file](img/create_env_file.png)
 
 ### Every Time
-1. This project is under active development -> Make sure you've pulled the latest version
-2. Make sure you have set `your_course_id` in the .env file
-3. Create a new token and add it to API_TOKEN in .env
 
-![image of how to get a token](img/create_a_token.png)
-
-> i.e `API_TOKEN = 'some string here'`
-
-4. Run the script(s)
-In terminal:
-   i. Make sure you are in the right directory (if you opened the folder in vscode and see the project files in the explorer, then you are in the right directory) - check with the command:
-   > `$ pwd`
-
-   if you are not in the right directory, you can use `cd` in terminal to navigate, for example if the project is in Documents/GitHub/course-details
-
-   > `$ cd "Documents/GitHub/course-details"` 
+1. Go to GitHub Desktop and make sure you pull the latest version of the project.
+![image_of_env_file](img/github-desktop-fetch.png)
+<br>
+1. Open VS Code, and open the course-details folder
+![image_of_env_file](img/open-vs-code.png)
+<br>
+1. Confirm you have your .env file setup, with the right `COURSE_ID` and an active `API_TOKEN`
    
-   ii. Activate the environment
-   > `$ conda deactivate`
-   > `$ conda activate canvas-get-course-details`
+   ![image_of_env_file](img/create_env_file.png)
+
+   Reminder - creating a token:
+   ![image of how to get a token](img/create_a_token.png)
+
+   > i.e `API_TOKEN = 'some string here'``
+
+4. Make sure your terminal in VSCode is in the right directory and activate the environment
+In the terminal in VS Code:
+   - Make sure you are in the right directory (if you opened the folder in vscode and see the project files in the explorer, then you are in the right directory) - check with the command:
+   - > `$ pwd`
+
+   - if you are not in the right directory, you can use `cd` in terminal to navigate, for example if the project is in Documents/GitHub/course-details
+
+   - > `$ cd "Documents/GitHub/course-details"` 
    
-   iii. Run the scripts! (In terminal:)
+   - Activate the environment
+      > `$ conda deactivate`
+      > `$ conda activate canvas-get-course-details`
+   
+5. Run the scripts! (In terminal:)
 <br>
 
-   a) The first script gets the data from Canvas and creates your first set of folders in **data**. 
+   a) The first script gets the data from Canvas and creates your first set of folders in **course-details/data**. 
    > `$ python src/get_course_data.py` 
 
    If all goes well, you should see Hello <your_name_here>! and a new folder in the output with the given course_id and the data. 

@@ -3,7 +3,7 @@ from os import walk
 import sys
 import re
 from termcolor import cprint
-from helpers import check_for_data, _copy_to_folder
+from helpers import check_for_data, create_folder, _copy_to_folder
 from interface import shut_down, print_success, confirm_strict
 from dotenv import load_dotenv
 import hashlib
@@ -27,9 +27,10 @@ load_dotenv()
 
 # TO ANONYMIZE
 # Canvas output
-#   enrollments.csv -> id, 
+#   enrollments.csv -> id + 112240000000000000
 # User input
 #   any analytics files -> globalStudentId	studentName	studentSisId
+#   analytics file 
 # create 
 
 # create a new output folder course_id-anon
@@ -43,7 +44,7 @@ def _hash_it(string_obfuscate, original_string):
     hex_dig = hash_object.hexdigest()
     return(hex_dig)
 
-def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, columns_to_drop):
+def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, columns_to_drop, addUBCID=False):
     """Given a file (found using course_id and file_name) will create an anon version of the file and return 
      an anon df. 
 
@@ -63,12 +64,16 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
     """    
 
     #create an anon output folder
-    output_folder = f'data/{course_id}/project_data_anonymized/'
+    output_folder = f'data/{course_id}/project_data_anonymized/user_data/'
     Path(output_folder).mkdir(parents=True, exist_ok=True)
 
     # read the filename given, mask identified columns drop identified columns, 
-    df = pd.read_csv(f'data/{course_id}/project_data/{file_name}')
+    df = pd.read_csv(f'data/{course_id}/project_data/user_data/{file_name}')
     df = df.drop(columns_to_drop, axis=1)
+
+    if addUBCID:
+        df[id_column_to_mask] = df[id_column_to_mask].apply(lambda x: x + 112240000000000000)
+
     df[f'{id_column_to_mask}_anon'] = df[id_column_to_mask].apply(lambda x: _hash_it(string_for_hash, x))
     df = df.drop(id_column_to_mask, axis=1)
 
@@ -104,25 +109,25 @@ def get_course_code():
 
 def main():
     COURSE_ID = get_course_code()
-    data_folder = f'output/{COURSE_ID}'
-    check_for_data(data_folder)
+    user_data_folder = f'data/{COURSE_ID}/project_data/user_data'
+    check_for_data(user_data_folder)
+
     string_obfuscate = confirm_anonymizer()
 
-    # get all files in data_folder
-    (_, _, filenames) = next(walk(data_folder))
-    all_data_files = [i for i in filenames if i.endswith('.csv')]
-
-    # files in data_folder to anonymize
-    files_to_anonymize = ['enrollments.csv']
-
-    # get the rest of the files, if not in files_to_anonymize, can run copy_to_folder
-    files_no_anonymization = [i for i in all_data_files if i not in files_to_anonymize]
-    [_copy_to_folder(COURSE_ID, i) for i in files_no_anonymization]
     
     # ANONYMIZE 
     #enrollments
-    anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'html_url', 'user'])
+    anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'html_url', 'user', 'sis_user_id'], True)
+    anonymize_data(COURSE_ID, string_obfuscate, 'new_analytics_user_data_combined.csv', 'globalStudentId', ['studentName', 'sortableName', 'studentSisId'])
 
+    
+    #MOVE COURSE STRUCTURE FILES TO ANON 
+    course_structure_folder_anon = f'data/{COURSE_ID}/project_data_anonymized/course_structure'
+    create_folder(course_structure_folder_anon)
+    
+    course_structure_folder = f'data/{COURSE_ID}/project_data/course_structure'
+    (_, _, filenames) = next(walk(user_data_folder))
+    course_structure_files = [i for i in filenames if i.endswith('.csv')]
 
 if __name__ == "__main__":
     # execute only if run as a script

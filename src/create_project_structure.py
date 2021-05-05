@@ -23,7 +23,7 @@ def create_project_structure(course_id):
         new_analytics_folder = f'{data_folder}/raw/new_analytics_input'
 
         # folders that need to be created if don't already
-        project_folder = f'{data_folder}/project_folder'
+        project_folder = f'{data_folder}/project_data'
         course_structure_folder = f'{project_folder}/course_structure'
         user_data_folder = f'{project_folder}/user_data'
 

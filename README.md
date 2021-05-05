@@ -120,7 +120,7 @@ In the terminal in VS Code:
    ![image_of_env_file](img/step-b-folder-output.png)
 <br>
    d) Now, if you need to anonymize your data, run the last script. This will copy all course_structure data, and make anonymized versions of user_data. It will also create a folder with data called project_data_anonymized_keys for if you need to pull all of the anonymized data back together. 
-   > `$ python src/anonymize.py`
+   > `$ python src/anonymizer.py`
 
    ![image_of_env_file](img/step-d-folder-output.png)
 

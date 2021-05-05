@@ -81,7 +81,7 @@ Creating a .env file in VSCode is easy. in the File Explorer right click, add a 
 
    > i.e `API_TOKEN = 'some string here'``
 
-#### 4. Make sure your terminal in VSCode is in the right directory and activate the environment
+#### 4. Make sure your terminal in VSCode is in the right directory
 In the terminal in VS Code:
    - Make sure you are in the right directory (if you opened the folder in vscode and see the project files in the explorer, then you are in the right directory) - check with the command:
    - > `$ pwd`
@@ -89,12 +89,13 @@ In the terminal in VS Code:
    - if you are not in the right directory, you can use `cd` in terminal to navigate, for example if the project is in Documents/GitHub/course-details
 
    - > `$ cd "Documents/GitHub/course-details"` 
-   
-   - Activate the environment
+
+#### 5. Activate the environment
+   - Activate the environment (this shold have been created in project setup)
       > `$ conda deactivate`
       > `$ conda activate canvas-get-course-details`
  
-#### 5. Run the scripts! (In terminal:)
+#### 6. Run the scripts! (In terminal:)
 <br>
 
    a) The first script gets the data from Canvas and creates your first set of folders in **course-details/data**. 

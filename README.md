@@ -72,7 +72,7 @@ Creating a .env file in VSCode is easy. in the File Explorer right click, add a 
 
 > i.e `API_TOKEN = 'some string here'`
 
-4. Run the script
+4. Run the script(s)
 In terminal:
    i. Make sure you are in the right directory (if you opened the folder in vscode and see the project files in the explorer, then you are in the right directory) - check with the command:
    > `$ pwd`
@@ -85,10 +85,32 @@ In terminal:
    > `$ conda deactivate`
    > `$ conda activate canvas-get-course-details`
    
-   iii. Run the script! (In terminal:)
+   iii. Run the scripts! (In terminal:)
+<br>
+
+   a) The first script gets the data from Canvas and creates your first set of folders in **data**. 
    > `$ python src/get_course_data.py` 
 
-If all goes well, you should see Hello <your_name_here>! and a new folder in the output with the given course_id and the data. 
+   If all goes well, you should see Hello <your_name_here>! and a new folder in the output with the given course_id and the data. 
+
+   ![image_of_env_file](img/step-a-folder-output.png)
+<br>
+
+   b) Once run successfully, you should have a folder data/COURSE_ID/raw/new_analytics_input. Add any new analytics files you have downloaded to this folder.
+<br>
+
+   c) Once run successfully and your new analytics files added, run the next script which will reorganize your files into project_data (this is needed to be anonymized next)
+   > `$ python src/create_project_structure.py`
+
+   You will now see a project_data folder with course_structure and user_data files organized. 
+
+   ![image_of_env_file](img/step-b-folder-output.png)
+<br>
+   d) Now, if you need to anonymize your data, run the last script. This will copy all course_structure data, and make anonymized versions of user_data. It will also create a folder with data called project_data_anonymized_keys for if you need to pull all of the anonymized data back together. 
+   > `$ python src/anonymize.py`
+
+   ![image_of_env_file](img/step-d-folder-output.png)
+
 
 ## 🌟 Acknowledgements & Contributions
 This project relies heavily on the [CanvasAPI](https://github.com/ucfopen/canvasapi) python library from The University of Central Florida's open source software projects - [UCF Open](https://ucfopen.github.io/).

@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 from os import walk
 import re
-from interface import print_unexpected, print_success
+from interface import print_unexpected, print_success, shut_down
 from shutil import copyfile
 
 def get_course_code():
@@ -14,7 +14,7 @@ def get_course_code():
             return(COURSE_ID)
     except Exception:
         shut_down('There was a problem with the .env file. Is there one?')
-        
+
 def create_folder(folder_path):
     Path(folder_path).mkdir(parents=True, exist_ok=True)
     return(f'creating {folder_path}')

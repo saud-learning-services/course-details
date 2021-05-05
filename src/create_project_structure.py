@@ -2,6 +2,7 @@ from interface import print_success, print_unexpected, shut_down
 from helpers import create_folder, check_for_data, _copy_to_folder, get_course_code
 import glob
 import pandas as pd
+from dotenv import load_dotenv
 
 """ 
 Once data collected, this script will create a "project_folder"
@@ -82,6 +83,7 @@ def create_project_structure(course_id):
         shut_down(f'NO DATA FOLDER FOUND FOR: {course_id}')
 
 if __name__ == "__main__":
+    load_dotenv()
     COURSE_ID = get_course_code()
     create_project_structure(COURSE_ID)
 

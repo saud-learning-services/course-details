@@ -96,13 +96,16 @@ In terminal:
    ![image_of_env_file](img/step-a-folder-output.png)
 <br>
 
-   b) Once run successfully, you should have a folder data/COURSE_ID/raw/new_analytics_input. Add any new analytics files you have downloaded to this folder.
+   b) Once run successfully, you should have a folder data/COURSE_ID/raw/new_analytics_input. 
+   > Add any new analytics files you have downloaded to this folder.
+
+   We assume you have used the direct download of the New Analytics data (and not filtered data which has different file patterns)
 <br>
 
    c) Once run successfully and your new analytics files added, run the next script which will reorganize your files into project_data (this is needed to be anonymized next)
    > `$ python src/create_project_structure.py`
 
-   You will now see a project_data folder with course_structure and user_data files organized. 
+   You will now see a project_data folder with course_structure and user_data files organized. All user_data files are those with any user identifiers included. 
 
    ![image_of_env_file](img/step-b-folder-output.png)
 <br>

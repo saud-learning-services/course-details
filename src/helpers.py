@@ -5,6 +5,16 @@ import re
 from interface import print_unexpected, print_success
 from shutil import copyfile
 
+def get_course_code():
+    try:
+        COURSE_ID = os.getenv('COURSE_ID')
+        if COURSE_ID == None:
+            shut_down('No course ID set, ensure you set it in .env')
+        else:
+            return(COURSE_ID)
+    except Exception:
+        shut_down('There was a problem with the .env file. Is there one?')
+        
 def create_folder(folder_path):
     Path(folder_path).mkdir(parents=True, exist_ok=True)
     return(f'creating {folder_path}')

@@ -1,5 +1,5 @@
 from interface import print_success, print_unexpected, shut_down
-from helpers import create_folder, check_for_data, _copy_to_folder
+from helpers import create_folder, check_for_data, _copy_to_folder, get_course_code
 import glob
 import pandas as pd
 
@@ -69,6 +69,7 @@ def create_project_structure(course_id):
             li = []
             for filename in analytics_files:
                 df = pd.read_csv(filename)
+                df['file'] = filename
                 li.append(df)
 
             df = pd.concat(li, axis=0)
@@ -81,8 +82,8 @@ def create_project_structure(course_id):
         shut_down(f'NO DATA FOLDER FOUND FOR: {course_id}')
 
 if __name__ == "__main__":
-    course_id = input('PLEASE ENTER A COURSE ID: ')
-    create_project_structure(course_id)
+    COURSE_ID = get_course_code()
+    create_project_structure(COURSE_ID)
 
     # if there is data in new_analytics_input
     # check that all files follow the same structure (column names)

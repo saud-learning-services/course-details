@@ -3,7 +3,7 @@ from os import walk
 import sys
 import re
 from termcolor import cprint
-from helpers import check_for_data, create_folder, _copy_to_folder
+from helpers import check_for_data, create_folder, _copy_to_folder, get_course_code
 from interface import shut_down, print_success, confirm_strict
 from dotenv import load_dotenv
 import hashlib
@@ -69,13 +69,22 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
 
     # read the filename given, mask identified columns drop identified columns, 
     df = pd.read_csv(f'data/{course_id}/project_data/user_data/{file_name}')
-    df = df.drop(columns_to_drop, axis=1)
 
     if addUBCID:
         df[id_column_to_mask] = df[id_column_to_mask].apply(lambda x: x + 112240000000000000)
 
     df[f'{id_column_to_mask}_anon'] = df[id_column_to_mask].apply(lambda x: _hash_it(string_for_hash, x))
+
+    # CREATE KEYS FILES 
+    keys_list = columns_to_drop + [id_column_to_mask, f'{id_column_to_mask}_anon']
+    df_key = df[keys_list].drop_duplicates()
+    
+    keys_folder = f'data/{course_id}/project_data_anonymized_keys/'
+    Path(keys_folder).mkdir(parents=True, exist_ok=True)
+    df_key.to_csv(f'{keys_folder}/key_{file_name}')
+    
     df = df.drop(id_column_to_mask, axis=1)
+    df = df.drop(columns_to_drop, axis=1)
 
     # create the output and return the dataframe
     df.to_csv(f'{output_folder}/{file_name}')
@@ -83,24 +92,15 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
     return(df)
 
 
-
 def confirm_anonymizer():
     #TODO - create string in text file for safe keeping
     stringinput = input('Please enter a string that will be used to anonymize Canvas User IDs: ')
 
-    cprint(f'\nConfirmation: {stringinput}\n', 'blue')
+    cprint(f'\nConfirmation - please copy and store somewhere secret: {stringinput}\n', 'blue')
 
     confirm_strict('Would you like to continue using the above information?', stringinput)
 
-def get_course_code():
-    try:
-        COURSE_ID = os.getenv('COURSE_ID')
-        if COURSE_ID == None:
-            shut_down('No course ID set, ensure you set it in .env')
-        else:
-            return(COURSE_ID)
-    except Exception:
-        shut_down('There was a problem with the .env file. Is there one?')
+
         
 # does a folder exist in output called COURSE_ID
 # is there any file in there that.. 
@@ -117,7 +117,7 @@ def main():
     
     # ANONYMIZE 
     #enrollments
-    anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'id', ['user_id', 'grades', 'html_url', 'user', 'sis_user_id'], True)
+    anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'user_id', ['id', 'grades', 'html_url', 'user', 'sis_user_id'], True)
     anonymize_data(COURSE_ID, string_obfuscate, 'new_analytics_user_data_combined.csv', 'globalStudentId', ['studentName', 'sortableName', 'studentSisId'])
 
     
@@ -126,8 +126,15 @@ def main():
     create_folder(course_structure_folder_anon)
     
     course_structure_folder = f'data/{COURSE_ID}/project_data/course_structure'
-    (_, _, filenames) = next(walk(user_data_folder))
+    (_, _, filenames) = next(walk(course_structure_folder))
     course_structure_files = [i for i in filenames if i.endswith('.csv')]
+    print(course_structure_files)
+    
+    for i in course_structure_files:
+        try:
+            _copy_to_folder(course_structure_folder, course_structure_folder_anon, i)
+        except:
+            print(f"error in copy of {i}")
 
 if __name__ == "__main__":
     # execute only if run as a script

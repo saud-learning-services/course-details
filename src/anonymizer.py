@@ -88,7 +88,7 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
 
     # create the output and return the dataframe
     df.to_csv(f'{output_folder}/{file_name}')
-    print(f'anon version created: {output_folder}/{file_name}')
+    #print(f'anon version created: {output_folder}/{file_name}')
     return(df)
 
 
@@ -96,9 +96,12 @@ def confirm_anonymizer():
     #TODO - create string in text file for safe keeping
     stringinput = input(colored('Please enter a string that will be used to anonymize Canvas User IDs: ', 'blue'))
 
-    cprint(f'\nConfirmation - please copy and store somewhere secret: {stringinput}\n', 'blue')
+    part_confirm = colored('Confirmation - please copy and store somewhere secret:', 'blue')
+    stringinput = colored(stringinput, 'white')
+    
+    print(f'\n{part_confirm}\n{stringinput}\n')
 
-    confirm_strict('Would you like to continue using the above information?', stringinput)
+    confirm_strict('Confirm you have stored your string that anonymizes IDs? [Y] to continue or [N] to exit.', stringinput)
 
 
         

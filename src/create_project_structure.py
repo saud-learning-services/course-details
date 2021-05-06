@@ -82,6 +82,7 @@ def create_project_structure(course_id):
     else:
         shut_down(f'NO DATA FOLDER FOUND FOR: {course_id}')
 
+
 if __name__ == "__main__":
     load_dotenv()
     COURSE_ID = get_course_code()

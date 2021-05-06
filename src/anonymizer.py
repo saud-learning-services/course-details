@@ -21,8 +21,11 @@ load_dotenv()
 
     It handles:
         enrollments 
-            id_anon -> id
-            dropped_columns -> user_id, grades, sis_user_id, html_url, user
+            id_anon -> user_id
+            dropped_columns -> id, grades, sis_user_id, html_url, user
+        assignment_submissions
+            id_anon -> user_id
+            dropped_columns -> 'body', 'preview_url', 'anonymous_id', 'grader_id'
 """
 
 # TO ANONYMIZE

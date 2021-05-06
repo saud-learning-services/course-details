@@ -90,6 +90,8 @@ def get_course_data(course, output_path):
     discussion_topics_df = create_df_and_csv(course.get_discussion_topics(), f'{output_path}/discussion_topics')
     grades_df = create_df_and_csv(course.get_multiple_submissions(student_ids='all'), f'{output_path}/assignment_submissions')
     
+
+    # discussion topics, entries and replies
     #modules and module items
     modules = course.get_modules()
     modules_df = create_df_and_csv(modules, f'{output_path}/modules')

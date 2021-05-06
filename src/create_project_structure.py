@@ -59,14 +59,13 @@ def create_project_structure(course_id):
         else:
             print_unexpected(f'{raw_api_data_folder}: No csvs found, no project structure to create.')
         
-        print(f'\nATTEMPTING TO PARSE NEW ANALYTICS INPUT\n')
+        print(f'\nAttempting to parse new analytics data...\n')
         if check_for_data(new_analytics_folder, '.csv'):
-            print(f'{new_analytics_folder}: New Analytics data found, compiling...')
+            print_success(f'{new_analytics_folder}: New Analytics data found, compiling...')
 
             # MOVE TO USER_DATA
             #combined new_analytics_input
             analytics_files = glob.glob(f"{new_analytics_folder}/*.csv")
-            print(analytics_files)
             li = []
             for filename in analytics_files:
                 df = pd.read_csv(filename)

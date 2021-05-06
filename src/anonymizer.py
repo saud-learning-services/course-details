@@ -2,7 +2,7 @@ import os
 from os import walk
 import sys
 import re
-from termcolor import cprint
+from termcolor import cprint, colored
 from helpers import check_for_data, create_folder, _copy_to_folder, get_course_code
 from interface import shut_down, print_success, confirm_strict
 from dotenv import load_dotenv
@@ -94,7 +94,7 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
 
 def confirm_anonymizer():
     #TODO - create string in text file for safe keeping
-    stringinput = input('Please enter a string that will be used to anonymize Canvas User IDs: ')
+    stringinput = input(colored('Please enter a string that will be used to anonymize Canvas User IDs: ', 'blue'))
 
     cprint(f'\nConfirmation - please copy and store somewhere secret: {stringinput}\n', 'blue')
 

@@ -96,6 +96,23 @@ In the terminal in VS Code:
       > `$ conda activate canvas-get-course-details`
  
 #### 6. Run the scripts! (In terminal:)
+You have two options: a) run all of the scripts at once, or b) follow step by step and run the scripts you need. If you don't need anonymized data, then I suggest following "run the scripts one at a time" and following steps a-c. 
+#### If you want to *run all of the scripts* which will:
+- extract canvas data 
+- ask you to add new analytics data to a specific folder 
+- create a new project_data folder and structure
+- create anonymized versions of data 
+
+
+Then you just need to run one command: 
+> `$ python src/project_and_anonymize.py` 
+
+Note: this will replace any existing data if you have extracted data before. There will also be a number of inputs in terminal to enter. 
+
+If you've sucessfully run all of the scripts, then you're done!
+
+#### If you want to *run the scripts one at a time* then follow steps a-d below:
+
 <br>
 
    a) The first script gets the data from Canvas and creates your first set of folders in **course-details/data**. 

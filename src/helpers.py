@@ -54,7 +54,7 @@ def check_for_data(folder_path, file_regex=None):
         print_unexpected(f'FAIL: Folder, {folder_path}, not found...')
         return(False)
 
-def _copy_to_folder(src_folder, dst_folder, file_name):
+def _copy_to_folder(src_folder, dst_folder, file_name, print_details=False):
     """[summary]
 
     Args:
@@ -70,7 +70,8 @@ def _copy_to_folder(src_folder, dst_folder, file_name):
 
     try:
         copyfile(src_file, dst_file)
-        print(f'file copied to: {dst_file}')
+        if print_details:
+            print(f'file copied to: {dst_file}')
     
     except Exception as e:
         print(f'Error: {e}')

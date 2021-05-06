@@ -40,7 +40,7 @@ def create_canvas_object():
         return(False)
         
  
-def create_df_and_csv(paginatedlist, output_file):
+def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None):
     #TODO - figure out "best" structure for this kind of data
     
     """given a list of objects or paginatedlist return a dataframe
@@ -57,12 +57,11 @@ def create_df_and_csv(paginatedlist, output_file):
     """
     
     try:
-        list_of_dicts = []
-        for i in paginatedlist:
-            i_dict = i.__dict__
-            list_of_dicts.append(i_dict)
+        df = pd.DataFrame([i.__dict__ for i in paginatedlist])
 
-        df = pd.DataFrame(list_of_dicts)
+        if filter_to_columns:
+            df = df[filter_to_columns]
+        
         df.to_csv(f'{output_file}.csv')
         
         return(df)

@@ -15,23 +15,23 @@ Given a course id, extracts details of course including:
 
 ## 🗂 Data Structures
 ### Skeleton
-- assignments
-- quizzes
-- pages
-- enrollments
-- tabs (navigation)
+- [assignments](https://canvas.instructure.com/doc/api/assignments.html#method.assignments_api.index)
+- [quizzes](https://canvas.instructure.com/doc/api/quizzes#method.quizzes/quizzes_api.index) 
+- [pages](https://canvas.instructure.com/doc/api/pages#method.wiki_pages_api.index)
+- [enrollments](https://canvas.instructure.com/doc/api/enrollments.html#method.enrollments_api.index)
+- [tabs (navigation)](https://canvas.instructure.com/doc/api/tabs.html#method.tabs.index)
 - *external tools* 
 - features
-- discussion_topics
-- modules
-- module_items
-- files
+- [discussion_topics](https://canvas.instructure.com/doc/api/discussion_topics.html#method.discussion_topics.index)
+- [modules](https://canvas.instructure.com/doc/api/modules.html#method.context_modules_api.index)
+- [module_items](https://canvas.instructure.com/doc/api/modules.html#method.context_module_items_api.index)
+- [files](https://canvas.instructure.com/doc/api/files#method.files.api_index)
 
 ### Course Details
 - page_links *TODO*
 ### Student Details
 - student_discussion_responses *TODO*
-- student_submissions
+- [student_submissions](https://canvas.instructure.com/doc/api/submissions#method.submissions_api.for_students)
 
 ### Student Interaction
 - A user can download student interaction data in Canvas from New Analytics. Given that the data is downloaded consistently (Canvas only has 27 days in New Analytics), and stored in `data/{COURSE_ID}/new_analytics_input` when prompted, the goal is to be able to combine student interaction with other course and student data for a "full picture" of the course and its activity. 

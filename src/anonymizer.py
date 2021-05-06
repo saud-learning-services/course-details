@@ -107,8 +107,7 @@ def confirm_anonymizer():
 # does a folder exist in the input called COURSE_ID
 
 
-def main():
-    COURSE_ID = get_course_code()
+def anonymizer(COURSE_ID):
     user_data_folder = f'data/{COURSE_ID}/project_data/user_data'
     check_for_data(user_data_folder)
 
@@ -138,4 +137,5 @@ def main():
 
 if __name__ == "__main__":
     # execute only if run as a script
-    main()
+    COURSE_ID = get_course_code()
+    anonymizer(COURSE_ID)

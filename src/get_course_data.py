@@ -97,12 +97,9 @@ def get_course_data(course, output_path):
     module_items_df = pd.DataFrame(module_items)
     module_items_df.to_csv(f'{output_path}/module_items.csv')
 
-def create_new_project(COURSE_ID):
-    # does something
-    return
 
 
-def main():
+def create_course_output():
     # establish canvas connection
     canvas, auth_header = create_canvas_object()
     
@@ -123,6 +120,8 @@ def main():
     #create output
     get_course_data(course, output_folder)
 
+    return(COURSE_ID, new_analytics_folder)
+
 if __name__ == "__main__":
     # execute only if run as a script
-    main()
+    get_course_data()

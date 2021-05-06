@@ -96,6 +96,8 @@ In the terminal in VS Code:
       > `$ conda activate canvas-get-course-details`
  
 #### 6. Run the scripts! (In terminal:)
+> *The scripts will require user input - indicated in Blue. You will get confirmations of success in Green. If anything goes terribly wrong you will see Red output in terminal.*
+
 You have two options: a) run all of the scripts at once, or b) follow step by step and run the scripts you need. If you don't need anonymized data, then I suggest following "run the scripts one at a time" and following steps a-c. 
 #### If you want to *run all of the scripts* which will:
 - extract canvas data 

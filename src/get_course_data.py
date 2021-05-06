@@ -40,13 +40,16 @@ def create_canvas_object():
         return(False)
         
  
-def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None):
+def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None, keep=True):
     #TODO - figure out "best" structure for this kind of data
     
     """given a list of objects or paginatedlist return a dataframe
     
     Args:
         paginatedlist (a Canvas PaginatedList)
+        output_file (str)
+        filter_to_columns (None or list)
+        keep (bool)
     
     Returns:
         df (dataframe) 
@@ -58,9 +61,15 @@ def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None):
     
     try:
         df = pd.DataFrame([i.__dict__ for i in paginatedlist])
-
+        
+        # if includes filtered columns list then keep if keep=True
+        # or drop if keep=False
         if filter_to_columns:
-            df = df[filter_to_columns]
+            
+            if keep:
+                df = df[filter_to_columns]
+            else:
+                df.drop(filter_to_columns, axis=1, inplace=True)
         
         df.to_csv(f'{output_file}.csv')
         
@@ -79,7 +88,8 @@ def get_course_data(course, output_path):
     externaltools_df = create_df_and_csv(course.get_external_tools(), f'{output_path}/external_tools')
     tabs_df = create_df_and_csv(course.get_tabs() , f'{output_path}/tabs')
     discussion_topics_df = create_df_and_csv(course.get_discussion_topics(), f'{output_path}/discussion_topics')
-
+    grades_df = create_df_and_csv(course.get_multiple_submissions(student_ids='all'), f'{output_path}/assignment_submissions')
+    
     #modules and module items
     modules = course.get_modules()
     modules_df = create_df_and_csv(modules, f'{output_path}/modules')
@@ -118,9 +128,11 @@ def create_course_output():
 
     #create output
     get_course_data(course, output_folder)
-
+    print_success("Done! Course data downloaded!")
     return(COURSE_ID, new_analytics_folder)
+
+    
 
 if __name__ == "__main__":
     # execute only if run as a script
-    get_course_data()
+    create_course_output()

@@ -127,13 +127,14 @@ def anonymizer(COURSE_ID):
     course_structure_folder = f'data/{COURSE_ID}/project_data/course_structure'
     (_, _, filenames) = next(walk(course_structure_folder))
     course_structure_files = [i for i in filenames if i.endswith('.csv')]
-    print(course_structure_files)
     
     for i in course_structure_files:
         try:
             _copy_to_folder(course_structure_folder, course_structure_folder_anon, i)
         except:
             print(f"error in copy of {i}")
+
+    print_success("Data successfully anonymized!")
 
 if __name__ == "__main__":
     # execute only if run as a script

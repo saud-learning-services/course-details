@@ -52,7 +52,7 @@ def create_project_structure(course_id):
                     print(f"error in copy of {i}")
 
             # MOVE TO USER_DATA
-            user_data_files = ["enrollments.csv"]
+            user_data_files = ["enrollments.csv", "assignment_submissions.csv"]
             for i in user_data_files:
                 _copy_to_folder(raw_api_data_folder, user_data_folder, i)
 

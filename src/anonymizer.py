@@ -28,6 +28,7 @@ load_dotenv()
 # TO ANONYMIZE
 # Canvas output
 #   enrollments.csv -> id + 112240000000000000
+#   assignment_submissions -> id + 112240000000000000
 # User input
 #   any analytics files -> globalStudentId	studentName	studentSisId
 #   analytics file 
@@ -118,11 +119,12 @@ def anonymizer(COURSE_ID):
 
     
     # ANONYMIZE 
-    #enrollments
+    #enrollments, assignment_submissions
     anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'user_id', ['id', 'grades', 'html_url', 'user', 'sis_user_id'], True)
+    anonymize_data(COURSE_ID, string_obfuscate, 'assignment_submissions.csv', 'user_id', ['body', 'preview_url', 'anonymous_id', 'grader_id'], True)
+    
     anonymize_data(COURSE_ID, string_obfuscate, 'new_analytics_user_data_combined.csv', 'globalStudentId', ['studentName', 'sortableName', 'studentSisId'])
 
-    
     #MOVE COURSE STRUCTURE FILES TO ANON 
     course_structure_folder_anon = f'data/{COURSE_ID}/project_data_anonymized/course_structure'
     create_folder(course_structure_folder_anon)

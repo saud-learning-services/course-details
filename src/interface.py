@@ -1,7 +1,7 @@
 
 import getpass
 from canvasapi import Canvas
-from termcolor import cprint
+from termcolor import cprint, colored
 import sys
 
 
@@ -32,7 +32,7 @@ def shut_down(msg):
 def confirm_strict(msg, to_return=None):
 
     while True:
-        confirm = input(f'{msg} [Y/N]: \n')
+        confirm = input(colored(f'{msg} [Y/N]: \n', 'blue'))
         confirm_upper = confirm.upper()
         
         if confirm_upper not in ('Y', "N"): 

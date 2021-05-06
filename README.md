@@ -15,29 +15,27 @@ Given a course id, extracts details of course including:
 
 ## 🗂 Data Structures
 ### Skeleton
-- assignments
-- quizzes
-- pages
-- enrollments
-- tabs (navigation)
+- [assignments](https://canvas.instructure.com/doc/api/assignments.html#method.assignments_api.index)
+- [quizzes](https://canvas.instructure.com/doc/api/quizzes#method.quizzes/quizzes_api.index) 
+- [pages](https://canvas.instructure.com/doc/api/pages#method.wiki_pages_api.index)
+- [enrollments](https://canvas.instructure.com/doc/api/enrollments.html#method.enrollments_api.index)
+- [tabs (navigation)](https://canvas.instructure.com/doc/api/tabs.html#method.tabs.index)
 - *external tools* 
 - features
-- discussion_topics
-- modules
-- module_items
-- files
+- [discussion_topics](https://canvas.instructure.com/doc/api/discussion_topics.html#method.discussion_topics.index)
+- [modules](https://canvas.instructure.com/doc/api/modules.html#method.context_modules_api.index)
+- [module_items](https://canvas.instructure.com/doc/api/modules.html#method.context_module_items_api.index)
+- [files](https://canvas.instructure.com/doc/api/files#method.files.api_index)
 
 ### Course Details
 - page_links *TODO*
-- quiz_details *TODO*
-- assignment_details *TODO*
 ### Student Details
 - student_discussion_responses *TODO*
-- student_quiz_submissions *TODO*
-- student_assignment_submissions *TODO*
+- [student_submissions](https://canvas.instructure.com/doc/api/submissions#method.submissions_api.for_students)
 
 ### Student Interaction
-- *TODO*: A user can download student interaction data in Canvas from New Analytics. Given that the data is downloaded consistently (Canvas only has 27 days in New Analytics), and stored in `input`, the goal is to be able to combine student interaction with other course and student data for a "full picture" of the course and its activity. 
+- A user can download student interaction data in Canvas from New Analytics. Given that the data is downloaded consistently (Canvas only has 27 days in New Analytics), and stored in `data/{COURSE_ID}/new_analytics_input` when prompted, the goal is to be able to combine student interaction with other course and student data for a "full picture" of the course and its activity. 
+- The assumption is you are using the direct download of New Analytics data. 
 
 ![shows relationship between scope](img/simple_project_scope.png)
 
@@ -79,25 +77,42 @@ Creating a .env file in VSCode is easy. in the File Explorer right click, add a 
    Reminder - creating a token:
    ![image of how to get a token](img/create_a_token.png)
 
-   > i.e `API_TOKEN = 'some string here'``
 
 #### 4. Make sure your terminal in VSCode is in the right directory
 In the terminal in VS Code:
-   - Make sure you are in the right directory (if you opened the folder in vscode and see the project files in the explorer, then you are in the right directory) - check with the command:
-   - > `$ pwd`
+   - Make sure you are in the right directory 
+   - if you opened the folder in vscode and see the project files in the explorer, then you are in the right directory 
+   - if you are unsure, check with the command:
+      > `$ pwd`
 
    - if you are not in the right directory, you can use `cd` in terminal to navigate, for example if the project is in Documents/GitHub/course-details
-
-   - > `$ cd "Documents/GitHub/course-details"` 
+      > `$ cd "Documents/GitHub/course-details"` 
 
 #### 5. Activate the environment
-   - Activate the environment (this shold have been created in project setup)
-      > `$ conda deactivate`
-      > `$ conda activate canvas-get-course-details`
+   - Activate the environment by entering these in order (this should have been created in project setup)
+      1. > `$ conda deactivate`
+      2. > `$ conda activate canvas-get-course-details`
  
 #### 6. Run the scripts! (In terminal:)
-<br>
+> *The scripts will require user input - indicated in Blue. You will get confirmations of success in Green. If anything goes terribly wrong you will see Red output in terminal.*
 
+You have two options: a) run all of the scripts at once, or b) follow step by step and run the scripts you need. If you don't need anonymized data, then I suggest following "run the scripts one at a time" and following steps a-c. 
+#### 6.1 If you want to *run all of the scripts* which will:
+- extract canvas data 
+- ask you to add new analytics data to a specific folder 
+- create a new project_data folder and structure
+- create anonymized versions of data 
+
+
+Then you just need to run one command: 
+> `$ python src/project_and_anonymize.py` 
+
+Note: this will replace any existing data if you have extracted data before. There will also be a number of inputs in terminal to enter. 
+
+**If you've sucessfully run all of the scripts, then you're done!**
+#### 6.2 If you want to *run the scripts one at a time* then follow steps a-d below:
+
+<br>
    a) The first script gets the data from Canvas and creates your first set of folders in **course-details/data**. 
    > `$ python src/get_course_data.py` 
 

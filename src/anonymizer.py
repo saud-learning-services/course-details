@@ -2,7 +2,7 @@ import os
 from os import walk
 import sys
 import re
-from termcolor import cprint
+from termcolor import cprint, colored
 from helpers import check_for_data, create_folder, _copy_to_folder, get_course_code
 from interface import shut_down, print_success, confirm_strict
 from dotenv import load_dotenv
@@ -21,13 +21,17 @@ load_dotenv()
 
     It handles:
         enrollments 
-            id_anon -> id
-            dropped_columns -> user_id, grades, sis_user_id, html_url, user
+            id_anon -> user_id
+            dropped_columns -> id, grades, sis_user_id, html_url, user
+        assignment_submissions
+            id_anon -> user_id
+            dropped_columns -> 'body', 'preview_url', 'anonymous_id', 'grader_id'
 """
 
 # TO ANONYMIZE
 # Canvas output
 #   enrollments.csv -> id + 112240000000000000
+#   assignment_submissions -> id + 112240000000000000
 # User input
 #   any analytics files -> globalStudentId	studentName	studentSisId
 #   analytics file 
@@ -88,17 +92,20 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
 
     # create the output and return the dataframe
     df.to_csv(f'{output_folder}/{file_name}')
-    print(f'anon version created: {output_folder}/{file_name}')
+    #print(f'anon version created: {output_folder}/{file_name}')
     return(df)
 
 
 def confirm_anonymizer():
     #TODO - create string in text file for safe keeping
-    stringinput = input('Please enter a string that will be used to anonymize Canvas User IDs: ')
+    stringinput = input(colored('Please enter a string that will be used to anonymize Canvas User IDs: ', 'blue'))
 
-    cprint(f'\nConfirmation - please copy and store somewhere secret: {stringinput}\n', 'blue')
+    part_confirm = colored('Confirmation - please copy and store somewhere secret:', 'blue')
+    stringinput = colored(stringinput, 'white')
+    
+    print(f'\n{part_confirm}\n{stringinput}\n')
 
-    confirm_strict('Would you like to continue using the above information?', stringinput)
+    confirm_strict('Confirm you have stored your string that anonymizes IDs? [Y] to continue or [N] to exit.', stringinput)
 
 
         
@@ -107,8 +114,7 @@ def confirm_anonymizer():
 # does a folder exist in the input called COURSE_ID
 
 
-def main():
-    COURSE_ID = get_course_code()
+def anonymizer(COURSE_ID):
     user_data_folder = f'data/{COURSE_ID}/project_data/user_data'
     check_for_data(user_data_folder)
 
@@ -116,11 +122,12 @@ def main():
 
     
     # ANONYMIZE 
-    #enrollments
+    #enrollments, assignment_submissions
     anonymize_data(COURSE_ID, string_obfuscate, 'enrollments.csv', 'user_id', ['id', 'grades', 'html_url', 'user', 'sis_user_id'], True)
+    anonymize_data(COURSE_ID, string_obfuscate, 'assignment_submissions.csv', 'user_id', ['body', 'preview_url', 'anonymous_id', 'grader_id'], True)
+    
     anonymize_data(COURSE_ID, string_obfuscate, 'new_analytics_user_data_combined.csv', 'globalStudentId', ['studentName', 'sortableName', 'studentSisId'])
 
-    
     #MOVE COURSE STRUCTURE FILES TO ANON 
     course_structure_folder_anon = f'data/{COURSE_ID}/project_data_anonymized/course_structure'
     create_folder(course_structure_folder_anon)
@@ -128,7 +135,6 @@ def main():
     course_structure_folder = f'data/{COURSE_ID}/project_data/course_structure'
     (_, _, filenames) = next(walk(course_structure_folder))
     course_structure_files = [i for i in filenames if i.endswith('.csv')]
-    print(course_structure_files)
     
     for i in course_structure_files:
         try:
@@ -136,6 +142,9 @@ def main():
         except:
             print(f"error in copy of {i}")
 
+    print_success("Data successfully anonymized!")
+
 if __name__ == "__main__":
     # execute only if run as a script
-    main()
+    COURSE_ID = get_course_code()
+    anonymizer(COURSE_ID)

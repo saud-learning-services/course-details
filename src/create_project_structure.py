@@ -52,21 +52,20 @@ def create_project_structure(course_id):
                     print(f"error in copy of {i}")
 
             # MOVE TO USER_DATA
-            user_data_files = ["enrollments.csv"]
+            user_data_files = ["enrollments.csv", "assignment_submissions.csv"]
             for i in user_data_files:
                 _copy_to_folder(raw_api_data_folder, user_data_folder, i)
 
         else:
             print_unexpected(f'{raw_api_data_folder}: No csvs found, no project structure to create.')
         
-        print(f'\nATTEMPTING TO PARSE NEW ANALYTICS INPUT\n')
+        print(f'\nAttempting to parse new analytics data...\n')
         if check_for_data(new_analytics_folder, '.csv'):
-            print(f'{new_analytics_folder}: New Analytics data found, compiling...')
+            print_success(f'{new_analytics_folder}: New Analytics data found, compiling...')
 
             # MOVE TO USER_DATA
             #combined new_analytics_input
             analytics_files = glob.glob(f"{new_analytics_folder}/*.csv")
-            print(analytics_files)
             li = []
             for filename in analytics_files:
                 df = pd.read_csv(filename)
@@ -81,6 +80,7 @@ def create_project_structure(course_id):
 
     else:
         shut_down(f'NO DATA FOLDER FOUND FOR: {course_id}')
+
 
 if __name__ == "__main__":
     load_dotenv()

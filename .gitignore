@@ -3,6 +3,7 @@
 .env
 Untitled.ipynb
 *.pyc
+.vscode
 
 # don't track the data 
 data/*

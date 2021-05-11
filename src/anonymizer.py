@@ -74,6 +74,17 @@ def anonymize_data(course_id, string_for_hash, file_name, id_column_to_mask, col
     # read the filename given, mask identified columns drop identified columns, 
     df = pd.read_csv(f'data/{course_id}/project_data/user_data/{file_name}')
 
+    # determine which columns are in both df and columns_to_drop
+    columns_in_df = set(df.columns.to_list())
+    columns_to_drop_set = set(columns_to_drop)
+
+    if columns_to_drop_set.issubset(columns_in_df):
+        print("All columns to drop found...")
+    else:
+        columns_to_drop = columns_in_df.intersection(columns_to_drop_set)
+        print(f"columns to drop now: {columns_to_drop}")
+        columns_to_drop = list(columns_to_drop)
+
     if addUBCID:
         df[id_column_to_mask] = df[id_column_to_mask].apply(lambda x: x + 112240000000000000)
 

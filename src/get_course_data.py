@@ -128,10 +128,13 @@ def create_course_output():
     new_analytics_folder = f'data/{COURSE_ID}/raw/new_analytics_input'
     create_folder(new_analytics_folder)
 
+    gradebook_folder = f'data/{COURSE_ID}/raw/gradebook_input'
+    create_folder(gradebook_folder) 
     #create output
     get_course_data(course, output_folder)
+    
     print_success("Done! Course data downloaded!")
-    return(COURSE_ID, new_analytics_folder)
+    return(COURSE_ID, new_analytics_folder, gradebook_folder)
 
     
 

@@ -86,17 +86,13 @@ def create_project_structure(course_id):
         if check_for_data(gradebook_folder, '.csv'):
             print_success(f'{gradebook_folder}: Gradebook data found, compiling...')
 
-            #look for a single csv file in gradebook_folder
-            gb_files = glob.glob(f"{gradebook_folder}/*.csv")
-            li = []
-            for filename in gb_files:
-                df = pd.read_csv(filename)
-                df['file'] = filename
-                li.append(df)
+            #TODO look for a single csv file in gradebook_folder
+            gb_detail = pd.read_csv(f'{gradebook_folder}/gradebook.csv', nrows=2)
+            column_names = list(gb_detail.columns)
+            gb_user = pd.read_csv(f'{gradebook_folder}/gradebook.csv', names = column_names, skiprows=3)
 
-            df = pd.concat(li, axis=0)
-
-            df.to_csv(f"{user_data_folder}/gradebook_data.csv", index=False)
+            gb_user.to_csv(f"{user_data_folder}/gradebook_user_data.csv", index=False)
+            gb_detail.to_csv(f"{course_structure_folder}/gradebook_details.csv", index=False)
 
         else:
             print(f'{gradebook_folder}: No csvs found.')

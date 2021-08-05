@@ -11,6 +11,10 @@ and reorganize data as appropriate.
 # Given a course_id check that appropriate files exist
 # 1. raw/api_output
 # 2. raw/new_analytics_input
+# 3. raw/gradebook_input
+
+def clean_gradebook_data(gradebook_file):
+    df = pd.read_csv(gradebook_file)
 
 # create folder called project_data
 def create_project_structure(course_id):
@@ -22,6 +26,7 @@ def create_project_structure(course_id):
         #folders that should already exist with data in them
         raw_api_data_folder = f'{data_folder}/raw/api_output'
         new_analytics_folder = f'{data_folder}/raw/new_analytics_input'
+        gradebook_folder = f'data/{COURSE_ID}/raw/gradebook_input'
 
         # folders that need to be created if don't already
         project_folder = f'{data_folder}/project_data'
@@ -77,6 +82,20 @@ def create_project_structure(course_id):
 
         else:
             print(f'{new_analytics_folder}: No csvs found.')
+
+        if check_for_data(gradebook_folder, '.csv'):
+            print_success(f'{gradebook_folder}: Gradebook data found, compiling...')
+
+            #TODO look for a single csv file in gradebook_folder
+            gb_detail = pd.read_csv(f'{gradebook_folder}/gradebook.csv', nrows=2)
+            column_names = list(gb_detail.columns)
+            gb_user = pd.read_csv(f'{gradebook_folder}/gradebook.csv', names = column_names, skiprows=3)
+
+            gb_user.to_csv(f"{user_data_folder}/gradebook_user_data.csv", index=False)
+            gb_detail.to_csv(f"{course_structure_folder}/gradebook_details.csv", index=False)
+
+        else:
+            print(f'{gradebook_folder}: No csvs found.')
 
     else:
         shut_down(f'NO DATA FOLDER FOUND FOR: {course_id}')

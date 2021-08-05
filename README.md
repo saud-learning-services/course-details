@@ -114,6 +114,7 @@ Note: this will replace any existing data if you have extracted data before. The
 
 <br>
    a) The first script gets the data from Canvas and creates your first set of folders in **course-details/data**. 
+   
    > `$ python src/get_course_data.py` 
 
    If all goes well, you should see Hello <your_name_here>! and a new folder in the output with the given course_id and the data. 

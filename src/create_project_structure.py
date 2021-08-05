@@ -88,8 +88,15 @@ def create_project_structure(course_id):
 
             #look for a single csv file in gradebook_folder
             gb_files = glob.glob(f"{gradebook_folder}/*.csv")
+            li = []
+            for filename in gb_files:
+                df = pd.read_csv(filename)
+                df['file'] = filename
+                li.append(df)
 
-            df.to_csv(f"{user_data_folder}/gradebook_data.csv")
+            df = pd.concat(li, axis=0)
+
+            df.to_csv(f"{user_data_folder}/gradebook_data.csv", index=False)
 
         else:
             print(f'{gradebook_folder}: No csvs found.')

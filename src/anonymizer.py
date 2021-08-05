@@ -150,9 +150,11 @@ def anonymizer(COURSE_ID):
         print(f'Error anonymizing new analytics: {e}')
         
     try:
-        anonymize_data(COURSE_ID, string_obfuscate, 'gradebook_data.csv', 'globalStudentId', ['studentName', 'sortableName', 'studentSisId'])
+        anonymize_data(COURSE_ID, string_obfuscate, 'gradebook_user_data.csv', 'ID', ['Student', 'SIS User ID', 'SIS Login ID', 'Student Number'], True)
     except Exception as e:
         print(f'Error anonymizing new analytics: {e}')
+
+    
     #MOVE COURSE STRUCTURE FILES TO ANON 
     course_structure_folder_anon = f'data/{COURSE_ID}/project_data_anonymized/course_structure'
     create_folder(course_structure_folder_anon)

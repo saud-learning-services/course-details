@@ -1,0 +1,13 @@
+url (string, optional): the unique locator for the page,
+title (string, optional): the title of the page,
+created_at (datetime, optional): the creation date for the page,
+updated_at (datetime, optional): the date the page was last updated,
+hide_from_students (boolean, optional): (DEPRECATED) whether this page is hidden from students (note: this is always reflected as the inverse of the published value),
+editing_roles (string, optional): roles allowed to edit the page; comma-separated list comprising a combination of 'teachers', 'students', 'members', and/or 'public' if not supplied, course defaults are used,
+last_edited_by (User, optional): the User who last edited the page (this may not be present if the page was imported from another system),
+body (string, optional): the page content, in HTML (present when requesting a single page; omitted when listing pages),
+published (boolean, optional): whether the page is published (true) or draft state (false).,
+front_page (boolean, optional): whether this page is the front page for the wiki,
+locked_for_user (boolean, optional): Whether or not this is locked for the user.,
+lock_info (LockInfo, optional): (Optional) Information for the user about the lock. Present when locked_for_user is true.,
+lock_explanation (string, optional): (Optional) An explanation of why this is locked for the user. Present when locked_for_user is true.

@@ -2,6 +2,10 @@ import pandas as pd
 import sys
 import json
 import re
+import os
+from helpers import get_course_code
+from dotenv import load_dotenv
+
 
 def transform_to_dict(string):
     """For reading and writing to dict a schema .txt file, copied and pasted from Canvas Live API"""
@@ -185,7 +189,7 @@ quizzes_dict = {
 
 assignment_submissions_dict = {
     # NOTE - some changes necessary for not anon dataset!
-    'user_id_anon': 'user_id',
+    'user_id': 'user_id',
     'id': 'assignment_submission_id',
     'score': 'assignment_score',
     'submitted_at': 'assignment_submitted_at',
@@ -199,7 +203,7 @@ assignment_submissions_dict = {
 
 enrollments_dict = {
     # NOTE - some changes necessary for not anon dataset!
-    'user_id_anon': 'user_id',
+    'user_id': 'user_id',
     'course_id': 'course_id',
     'type': 'enrollment_type',
     'course_section_id': 'enrollment_course_section',
@@ -209,7 +213,7 @@ enrollments_dict = {
 
 new_analytics_dict = {
     # NOTE - some changes necessary for not anon dataset!
-    'globalStudentId_anon': 'user_id',
+    'globalStudentId': 'user_id',
     'globalCourseId': 'global_course_id',
     'contentType': 'content_type',
     'contentName': 'content_name',
@@ -243,3 +247,8 @@ def main(COURSE_ID):
     transform_data(user_data_folder, cleaned_folder, "assignment_submissions", assignment_submissions_dict, "schemas/assignment_submissions.txt", True)
     transform_data(user_data_folder, cleaned_folder, "enrollments", enrollments_dict,  "schemas/enrollents.txt", True)
     transform_data(user_data_folder, cleaned_folder, "new_analytics_user_data_combined", new_analytics_dict, "", True)
+
+if __name__ == "__main__":
+    load_dotenv()
+    COURSE_ID = get_course_code()
+    main(COURSE_ID)

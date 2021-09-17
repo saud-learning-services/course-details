@@ -32,6 +32,8 @@ def create_project_structure(course_id):
         project_folder = f'{data_folder}/project_data'
         course_structure_folder = f'{project_folder}/course_structure'
         user_data_folder = f'{project_folder}/user_data'
+        cleaned_data_folder =  f'{project_folder}/cleaned_data'
+        transformed_data_folder =  f'{project_folder}/transformed_data'
 
         print(f'\nATTEMPTING TO CREATE PROJECT STRUCTURE\n')
         if check_for_data(raw_api_data_folder, '\.csv'):
@@ -40,7 +42,9 @@ def create_project_structure(course_id):
             msg_list = '\n\t-'.join(
                 [create_folder(project_folder),
                 create_folder(course_structure_folder),
-                create_folder(user_data_folder)]
+                create_folder(user_data_folder),
+                create_folder(cleaned_data_folder),
+                create_folder(transformed_data_folder)]
                 )
 
             print(f'\n\t-{msg_list}')

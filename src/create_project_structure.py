@@ -1,5 +1,5 @@
 from interface import print_success, print_unexpected, shut_down
-from helpers import create_folder, check_for_data, _copy_to_folder, get_course_code
+from helpers import create_folder, check_for_data, _copy_to_folder
 import glob
 import pandas as pd
 from settings import COURSE_ID

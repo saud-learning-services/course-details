@@ -5,6 +5,7 @@ import re
 from interface import print_unexpected, print_success, shut_down
 from shutil import copyfile
 import pandas as pd
+import json
 
 def get_course_code():
     try:
@@ -116,3 +117,18 @@ def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None, keep=T
         
     except Exception as e:
         print(f'no dataframe for {output_file}: {e}')
+
+def transform_to_dict(string):
+    """For reading and writing to dict a schema .txt file, copied and pasted from Canvas Live API"""
+    pattern = "(.*) \((.*), (.*)\): (.*)"
+    prog = re.compile(pattern)
+    result = prog.match(string)
+
+    my_dict = {"name": result.group(1),
+               "data_type": result.group(2),
+               "field_description": result.group(4)} 
+           
+    return(my_dict)
+
+def get_pretty_print(json_object):
+    return json.dumps(json_object, sort_keys=True, indent=4, separators=(',', ': '))

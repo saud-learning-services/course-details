@@ -80,7 +80,7 @@ def _copy_to_folder(src_folder, dst_folder, file_name, print_details=False):
 
     return
 
-def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None, keep=True):
+def create_df_and_csv(paginatedlist, data_dict):
     #TODO - figure out "best" structure for this kind of data
     
     """given a list of objects or paginatedlist return a dataframe
@@ -99,21 +99,17 @@ def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None, keep=T
         
     """
     
+    output_file = f'{data_dict["name"]}.csv'
+
     try:
         df = pd.DataFrame([i.__dict__ for i in paginatedlist])
-        
-        # if includes filtered columns list then keep if keep=True
-        # or drop if keep=False
-        if filter_to_columns:
-            
-            if keep:
-                df = df[filter_to_columns]
-            else:
-                df.drop(filter_to_columns, axis=1, inplace=True)
+    
         
         df.to_csv(f'{output_file}.csv')
+
+        data_dict.update({'df': df})
         
-        return(df)
+        return(data_dict)
         
     except Exception as e:
         print(f'no dataframe for {output_file}: {e}')

@@ -5,6 +5,7 @@ import re
 from interface import print_unexpected, print_success, shut_down
 from shutil import copyfile
 from dotenv import load_dotenv
+import pandas as pd
 
 load_dotenv()
 
@@ -80,3 +81,41 @@ def _copy_to_folder(src_folder, dst_folder, file_name, print_details=False):
         print(f'Error: {e}')
 
     return
+
+def create_df_and_csv(paginatedlist, output_file, filter_to_columns=None, keep=True):
+    #TODO - figure out "best" structure for this kind of data
+    
+    """given a list of objects or paginatedlist return a dataframe
+    
+    Args:
+        paginatedlist (a Canvas PaginatedList)
+        output_file (str)
+        filter_to_columns (None or list)
+        keep (bool)
+    
+    Returns:
+        df (dataframe) 
+        
+    Output:
+        csv in output_path if data available
+        
+    """
+    
+    try:
+        df = pd.DataFrame([i.__dict__ for i in paginatedlist])
+        
+        # if includes filtered columns list then keep if keep=True
+        # or drop if keep=False
+        if filter_to_columns:
+            
+            if keep:
+                df = df[filter_to_columns]
+            else:
+                df.drop(filter_to_columns, axis=1, inplace=True)
+        
+        df.to_csv(f'{output_file}.csv')
+        
+        return(df)
+        
+    except Exception as e:
+        print(f'no dataframe for {output_file}: {e}')

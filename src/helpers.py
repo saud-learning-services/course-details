@@ -4,10 +4,7 @@ from os import walk
 import re
 from interface import print_unexpected, print_success, shut_down
 from shutil import copyfile
-from dotenv import load_dotenv
 import pandas as pd
-
-load_dotenv()
 
 def get_course_code():
     try:

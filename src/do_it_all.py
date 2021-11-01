@@ -1,7 +1,6 @@
 
 from create_project_structure import create_project_structure
 from get_course_data import create_course_output
-from anonymizer import anonymizer
 from interface import confirm_strict, print_success, shut_down
 import settings
 from settings import COURSE_ID

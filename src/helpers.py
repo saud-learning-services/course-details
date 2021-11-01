@@ -4,6 +4,8 @@ from os import walk
 import re
 from interface import print_unexpected, print_success, shut_down
 from shutil import copyfile
+import pandas as pd
+import json
 
 def get_course_code():
     try:
@@ -77,3 +79,67 @@ def _copy_to_folder(src_folder, dst_folder, file_name, print_details=False):
         print(f'Error: {e}')
 
     return
+
+def create_df_and_csv(paginatedlist, data_dict, output_folder, iteration_call=None):
+    #TODO - figure out "best" structure for this kind of data
+    
+    """given a list of objects or paginatedlist return a dataframe
+    
+    Args:
+        paginatedlist (a Canvas PaginatedList)
+        output_file (str)
+        filter_to_columns (None or list)
+        keep (bool)
+    
+    Returns:
+        df (dataframe) 
+        
+    Output:
+        csv in output_path if data available
+        
+    """
+
+    try:
+        if iteration_call:
+            iteration_list = []
+
+            for i in paginatedlist:
+                items = getattr(i, iteration_call)
+
+                for j in items():
+                    j_dict = j.__dict__
+                    iteration_list.append(j_dict)
+            
+            df = pd.DataFrame(iteration_list)
+
+
+        else:            
+            df = pd.DataFrame([i.__dict__ for i in paginatedlist])
+
+
+        output_file = f'{output_folder}/{data_dict["name"]}.csv'
+        print(output_file)
+        data_dict.update({"raw_csv": output_file})
+        df.to_csv(f'{output_file}')
+        data_dict.update({'df': df})
+        return(data_dict)
+    
+    except Exception as e:
+        print(f'{e}')
+        return(data_dict.update({"df": None, "raw_csv": None}))
+
+        
+def transform_to_dict(string):
+    """For reading and writing to dict a schema .txt file, copied and pasted from Canvas Live API"""
+    pattern = "(.*) \((.*), (.*)\): (.*)"
+    prog = re.compile(pattern)
+    result = prog.match(string)
+
+    my_dict = {"name": result.group(1),
+               "data_type": result.group(2),
+               "field_description": result.group(4)} 
+           
+    return(my_dict)
+
+def get_pretty_print(json_object):
+    return json.dumps(json_object, sort_keys=True, indent=4, separators=(',', ': '))

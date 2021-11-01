@@ -29,7 +29,7 @@ def rename_and_drop_columns(df, rename_dict, schema_file, drop_rest=False):
     # get column information
     
     schema_df = schema_to_df(schema_file)
-    
+    rename_dict = rename_dict["rename_dict"]
     og_cols = df.columns.to_list()
     keep_cols = list(rename_dict.keys())
     unlisted_cols = list(set(og_cols) - set(keep_cols))

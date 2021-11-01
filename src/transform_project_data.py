@@ -226,10 +226,11 @@ new_analytics_dict = {
 }
 
 def main(COURSE_ID):
+
     data_folder = f'data/{COURSE_ID}/project_data'
     user_data_folder = f'{data_folder}/user_data'
     course_structure = f'{data_folder}/course_structure/'
-    cleaned_folder = f'{data_folder}/cleaned_data'
+    cleaned_folder = f'{data_folder}/transformed/cleaned_data'
 
     ## COURSE STRUCTURE FIRST
     transform_data(course_structure, cleaned_folder, "assignments", assignments_dict, "schemas/assignments.txt", True)

@@ -6,14 +6,15 @@ from IPython.display import display, HTML
 from datetime import datetime
 from interface import shut_down, print_success, _create_csv
 from helpers import create_folder
-from dotenv import load_dotenv
+
 import os
 from pathlib import Path
+from settings import COURSE_ID
+import settings
 
 """ Creates the initial course data which will be output in data/COURSE_ID/raw/api_output 
 and creates a new_analytics_input folder for user
 """
-load_dotenv()
 
 def create_canvas_object(): 
     try:
@@ -115,28 +116,18 @@ def create_course_output():
     canvas, auth_header = create_canvas_object()
     
     #get the course
-    COURSE_ID = os.getenv("COURSE_ID")
+    # COURSE_ID = settings.COURSE_ID
 
     #create a project structure for the new course
     course = canvas.get_course(COURSE_ID)
     
-    #create an output folder for api data if it doesn't exist
-    output_folder = f'data/{COURSE_ID}/raw/api_output'
-    create_folder(output_folder)
-   
-    #create a new analytics input folder
-    new_analytics_folder = f'data/{COURSE_ID}/raw/new_analytics_input'
-    create_folder(new_analytics_folder)
+    create_folder(settings.APIOUTPUT_FOLDER)
+    create_folder(settings.NEWANALYTICS_FOLDER)
+    create_folder(settings.GRADEBOOK_FOLDER) 
 
-    gradebook_folder = f'data/{COURSE_ID}/raw/gradebook_input'
-    create_folder(gradebook_folder) 
-    #create output
-    get_course_data(course, output_folder)
+    get_course_data(course, settings.APIOUTPUT_FOLDER)
     
     print_success("Done! Course data downloaded!")
-    return(COURSE_ID, new_analytics_folder, gradebook_folder)
-
-    
 
 if __name__ == "__main__":
     # execute only if run as a script

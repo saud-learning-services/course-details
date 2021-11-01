@@ -3,6 +3,7 @@ from helpers import create_folder, check_for_data, _copy_to_folder, get_course_c
 import glob
 import pandas as pd
 from dotenv import load_dotenv
+import settings
 
 """ 
 Once data collected, this script will create a "project_folder"
@@ -12,7 +13,7 @@ and reorganize data as appropriate.
 # 1. raw/api_output
 # 2. raw/new_analytics_input
 # 3. raw/gradebook_input
-
+            
 def clean_gradebook_data(gradebook_file):
     df = pd.read_csv(gradebook_file)
 
@@ -107,7 +108,7 @@ def create_project_structure(course_id):
 
 if __name__ == "__main__":
     load_dotenv()
-    COURSE_ID = get_course_code()
+    COURSE_ID = settings.COURSE_ID
     create_project_structure(COURSE_ID)
 
     # if there is data in new_analytics_input

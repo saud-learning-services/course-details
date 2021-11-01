@@ -1,8 +1,8 @@
 import pandas as pd
 import sys
 from helpers import transform_to_dict
-import settings
 from settings import COURSE_ID
+import data_details
 
 
 def schema_to_df(file):
@@ -114,21 +114,21 @@ def main(COURSE_ID):
     cleaned_folder = f'{data_folder}/transformed/cleaned_data'
 
     ## COURSE STRUCTURE FIRST
-    transform_data(course_structure, cleaned_folder, "assignments", settings.ASSIGNMENTS_DICT, "schemas/assignments.txt", True)
-    transform_data(course_structure, cleaned_folder, "discussion_topics", settings.DISCUSSIONTOPICS_DICT, "schemas/discussion_topics.txt", True)
+    transform_data(course_structure, cleaned_folder, "assignments", data_details.ASSIGNMENTS_DICT, "schemas/assignments.txt", True)
+    transform_data(course_structure, cleaned_folder, "discussion_topics", data_details.DISCUSSIONTOPICS_DICT, "schemas/discussion_topics.txt", True)
     # skipping external_tools
     # skipping features
-    transform_data(course_structure, cleaned_folder, "files", settings.FILES_DICT, "schemas/files.txt", True)
-    transform_data(course_structure, cleaned_folder, "module_items", settings.MODULEITEMS_DICT, "schemas/module_items.txt", True)
-    transform_data(course_structure, cleaned_folder, "modules", settings.MODULES_DICT,  "schemas/modules.txt", True)
-    transform_data(course_structure, cleaned_folder, "pages", settings.PAGES_DICT, "schemas/pages.txt", True)
-    transform_data(course_structure, cleaned_folder, "quizzes", settings.QUIZZES_DICT, "schemas/quizzes.txt", True)
+    transform_data(course_structure, cleaned_folder, "files", data_details.FILES_DICT, "schemas/files.txt", True)
+    transform_data(course_structure, cleaned_folder, "module_items", data_details.MODULEITEMS_DICT, "schemas/module_items.txt", True)
+    transform_data(course_structure, cleaned_folder, "modules", data_details.MODULES_DICT,  "schemas/modules.txt", True)
+    transform_data(course_structure, cleaned_folder, "pages", data_details.PAGES_DICT, "schemas/pages.txt", True)
+    transform_data(course_structure, cleaned_folder, "quizzes", data_details.QUIZZES_DICT, "schemas/quizzes.txt", True)
     # skipping tabs
 
     ### USER DATA NEXT
-    transform_data(user_data_folder, cleaned_folder, "assignment_submissions", settings.ASSIGNMENTSUBMISSIONS_DICT, "schemas/assignment_submissions.txt", True)
-    transform_data(user_data_folder, cleaned_folder, "enrollments", settings.ENROLLMENTS_DICT,  "schemas/enrollents.txt", True)
-    transform_data(user_data_folder, cleaned_folder, "new_analytics_user_data_combined", settings.NEWANALYTICS_DICT, "", True)
+    transform_data(user_data_folder, cleaned_folder, "assignment_submissions", data_details.ASSIGNMENTSUBMISSIONS_DICT, "schemas/assignment_submissions.txt", True)
+    transform_data(user_data_folder, cleaned_folder, "enrollments", data_details.ENROLLMENTS_DICT,  "schemas/enrollents.txt", True)
+    transform_data(user_data_folder, cleaned_folder, "new_analytics_user_data_combined", data_details.NEWANALYTICS_DICT, "", True)
 
 if __name__ == "__main__":
     main(COURSE_ID)

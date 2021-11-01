@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 from settings import COURSE_ID
 import settings
+import data_details
 
 """ Creates the initial course data which will be output in data/COURSE_ID/raw/api_output 
 and creates a new_analytics_input folder for user
@@ -37,36 +38,24 @@ def create_canvas_object():
         shut_down(f'{e}: Canvas object not created')
         return(False)       
 
-def get_course_data(course, output_path):
-    enrol_df = helpers.create_df_and_csv(course.get_enrollments(), f'{output_path}/enrollments')
-    files_df = helpers.create_df_and_csv(course.get_files(), f'{output_path}/files')
-    features_df = helpers.create_df_and_csv(course.get_features(), f'{output_path}/features')
-    pages_df = helpers.create_df_and_csv(course.get_pages(), f'{output_path}/pages')
-    quizzes_df = helpers.create_df_and_csv(course.get_quizzes(), f'{output_path}/quizzes')
-    assignments_df = helpers.create_df_and_csv(course.get_assignments(), f'{output_path}/assignments')
-    externaltools_df = helpers.create_df_and_csv(course.get_external_tools(), f'{output_path}/external_tools')
-    tabs_df = helpers.create_df_and_csv(course.get_tabs() , f'{output_path}/tabs')
-    discussion_topics_df = helpers.create_df_and_csv(course.get_discussion_topics(), f'{output_path}/discussion_topics')
-    grades_df = helpers.create_df_and_csv(course.get_multiple_submissions(student_ids='all'), f'{output_path}/assignment_submissions')
+def get_course_data(course, output_folder):
+
+    data_details.ENROLLMENTS_DICT = helpers.create_df_and_csv(course.get_enrollments(), data_details.ENROLLMENTS_DICT, output_folder)
+    data_details.FILES_DICT = helpers.create_df_and_csv(course.get_files(), data_details.FILES_DICT, output_folder)
+    #features_df = helpers.create_df_and_csv(course.get_features(), f'{output_path}/features')
+    data_details.PAGES_DICT= helpers.create_df_and_csv(course.get_pages(), data_details.PAGES_DICT, output_folder)
+    data_details.QUIZZES_DICT= helpers.create_df_and_csv(course.get_quizzes(), data_details.QUIZZES_DICT, output_folder)
+    data_details.ASSIGNMENTS_DICT = helpers.create_df_and_csv(course.get_assignments(), data_details.ASSIGNMENTS_DICT, output_folder)
+    #externaltools_df = helpers.create_df_and_csv(course.get_external_tools(), f'{output_path}/external_tools')
+    #tabs_df = helpers.create_df_and_csv(course.get_tabs() , f'{output_path}/tabs')
+    data_details.DISCUSSIONTOPICS_DICT = helpers.create_df_and_csv(course.get_discussion_topics(), data_details.DISCUSSIONTOPICS_DICT, output_folder)
+    data_details.ASSIGNMENTSUBMISSIONS_DICT = helpers.create_df_and_csv(course.get_multiple_submissions(student_ids='all'), data_details.ASSIGNMENTSUBMISSIONS_DICT, output_folder)
     
 
     # discussion topics, entries and replies
     #modules and module items
-    modules = course.get_modules()
-    modules_df = helpers.create_df_and_csv(modules, f'{output_path}/modules')
-
-    module_items = []
-
-    for m in modules:
-        m_items = m.get_module_items()
-        
-        for i in m_items:
-            i_dict = i.__dict__
-            module_items.append(i_dict)
-            
-    module_items_df = pd.DataFrame(module_items)
-    module_items_df.to_csv(f'{output_path}/module_items.csv')
-
+    data_details.MODULES_DICT = helpers.create_df_and_csv(course.get_modules(), data_details.MODULES_DICT, output_folder)
+    data_details.MODULEITEMS_DICT = helpers.create_df_and_csv(course.get_modules(), data_details.MODULEITEMS_DICT, output_folder, "get_module_items")
 
 
 def create_course_output():

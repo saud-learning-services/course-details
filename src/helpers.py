@@ -80,7 +80,7 @@ def _copy_to_folder(src_folder, dst_folder, file_name, print_details=False):
 
     return
 
-def create_df_and_csv(paginatedlist, data_dict):
+def create_df_and_csv(paginatedlist, data_dict, output_folder, iteration_call=None):
     #TODO - figure out "best" structure for this kind of data
     
     """given a list of objects or paginatedlist return a dataframe
@@ -98,22 +98,37 @@ def create_df_and_csv(paginatedlist, data_dict):
         csv in output_path if data available
         
     """
-    
-    output_file = f'{data_dict["name"]}.csv'
 
     try:
-        df = pd.DataFrame([i.__dict__ for i in paginatedlist])
-    
-        
-        df.to_csv(f'{output_file}.csv')
+        if iteration_call:
+            iteration_list = []
 
+            for i in paginatedlist:
+                items = getattr(i, iteration_call)
+
+                for j in items():
+                    j_dict = j.__dict__
+                    iteration_list.append(j_dict)
+            
+            df = pd.DataFrame(iteration_list)
+
+
+        else:            
+            df = pd.DataFrame([i.__dict__ for i in paginatedlist])
+
+
+        output_file = f'{output_folder}/{data_dict["name"]}.csv'
+        print(output_file)
+        data_dict.update({"raw_csv": output_file})
+        df.to_csv(f'{output_file}')
         data_dict.update({'df': df})
-        
         return(data_dict)
-        
+    
     except Exception as e:
-        print(f'no dataframe for {output_file}: {e}')
+        print(f'{e}')
+        return(data_dict.update({"df": None, "raw_csv": None}))
 
+        
 def transform_to_dict(string):
     """For reading and writing to dict a schema .txt file, copied and pasted from Canvas Live API"""
     pattern = "(.*) \((.*), (.*)\): (.*)"

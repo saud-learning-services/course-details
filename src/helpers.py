@@ -45,7 +45,7 @@ def check_for_data(folder_path, file_regex=None):
             if len(all_data_files) > 0:
                 printable_files = '\n\t-'.join(all_data_files)
                 #print(f'Files with match found: \n\t-{printable_files}')
-                print_success(f'SUCCESS: At least one file found!')
+                print_success(f'SUCCESS: At least one file found! {printable_files}')
                 return(True)
             
             else:

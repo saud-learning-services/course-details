@@ -4,6 +4,8 @@ import glob
 import pandas as pd
 from settings import COURSE_ID
 import settings
+import re
+from os import walk
 
 """ 
 Once data collected, this script will create a "project_folder"
@@ -23,22 +25,22 @@ def create_project_structure(course_id):
             
             msg_list = '\n\t-'.join(
                 [create_folder(settings.PROJECT_FOLDER),
-                create_folder(settings.COURSESTRUCTURE_FOLDER),
-                create_folder(settings.USERDATA_FOLDER),
-                create_folder(settings.CLEANEDDATA_FOLDER),
-                create_folder(settings.TRANSFORMEDDATA_FOLDER)]
+                create_folder(settings.ORIGINALDATA_FOLDER)]
                 )
 
             print(f'\n\t-{msg_list}')
 
-            for i in settings.COURSESTRUCTURE_FILES:
+            # get list of csv files 
+            pattern = re.compile("*\.csv")
+            (_, _, filenames) = next(walk(settings.APIOUTPUT_FOLDER))
+            all_data_files = [i for i in filenames if re.search(pattern, i)]
+
+
+            for i in all_data_files:
                 try:
-                    _copy_to_folder(settings.APIOUTPUT_FOLDER, settings.COURSESTRUCTURE_FOLDER, i)
+                    _copy_to_folder(settings.APIOUTPUT_FOLDER, settings.ORIGINALDATA_FOLDER, i)
                 except:
                     print(f"error in copy of {i}")
-
-            for i in settings.USERDATA_FILES:
-                _copy_to_folder(settings.APIOUTPUT_FOLDER, settings.USERDATA_FOLDER, i)
 
         else:
             print_unexpected(f'{settings.APIOUTPUT_FOLDER}: No csvs found, no project structure to create.')
@@ -57,7 +59,7 @@ def create_project_structure(course_id):
                 li.append(df)
 
             df = pd.concat(li, axis=0)
-            df.to_csv(f"{settings.USERDATA_FOLDER}/new_analytics_user_data_combined.csv")
+            df.to_csv(f"{settings.ORIGINALDATA_FOLDER}/new_analytics_user_data_combined.csv")
 
         else:
             print(f'{settings.NEWANALYTICS_FOLDER}: No csvs found.')
@@ -70,8 +72,8 @@ def create_project_structure(course_id):
             column_names = list(gb_detail.columns)
             gb_user = pd.read_csv(f'{settings.GRADEBOOK_FOLDER}/gradebook.csv', names = column_names, skiprows=3)
 
-            gb_user.to_csv(f"{settings.USERDATA_FOLDER}/gradebook_user_data.csv", index=False)
-            gb_detail.to_csv(f"{settings.COURSESTRUCTURE_FOLDER}/gradebook_details.csv", index=False)
+            gb_user.to_csv(f"{settings.ORIGINALDATA_FOLDER}/gradebook_user_data.csv", index=False)
+            gb_detail.to_csv(f"{settings.ORIGINALDATA_FOLDER}/gradebook_details.csv", index=False)
 
         else:
             print(f'{settings.GRADEBOOK_FOLDER}: No csvs found.')

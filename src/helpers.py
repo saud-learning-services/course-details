@@ -143,3 +143,74 @@ def transform_to_dict(string):
 
 def get_pretty_print(json_object):
     return json.dumps(json_object, sort_keys=True, indent=4, separators=(',', ': '))
+
+def schema_to_df(file):
+    """For reading and writing to dict a schema .txt file, copied and pasted from Canvas Live API"""
+    try:
+        f = open(file, "r")
+        lines = f.readlines()
+        data = []
+        for index, line in enumerate(lines):
+            try:
+                data.append(transform_to_dict(line))
+            except:
+                pass
+
+        f.close()
+        df = pd.DataFrame(data)
+        df['schema_file'] = file
+        return(df)
+    except Exception as e:
+        print(f"Error for {file}: {e}")
+
+def schema_rename_and_drop_columns(df, rename_dict, schema_file, drop_rest=False): 
+    # get column information
+    
+    schema_df = schema_to_df(schema_file)
+    rename_dict = rename_dict["rename_dict"]
+    og_cols = df.columns.to_list()
+    keep_cols = list(rename_dict.keys())
+    unlisted_cols = list(set(og_cols) - set(keep_cols))
+    has_dropped = False
+    
+    # changes if dropping 
+    if drop_rest:
+        print("DROPPING UNLISTED COLS")
+        dropped_cols = unlisted_cols
+        # change record
+        if dropped_cols:
+            has_dropped = True
+            dropped_df = pd.DataFrame(dropped_cols)
+            dropped_df.columns = ['original']
+            dropped_df['change_note'] = 'deleted'
+
+        # changed_cols_df = changed_cols_df.append(dropped_df, ignore_index=True)
+        # make change
+        df = df[keep_cols].copy() 
+    
+    else:
+        print("KEEPING UNLISTED COLS")
+        unlisted_dict = dict(zip(unlisted_cols, unlisted_cols))
+        rename_dict.update(unlisted_dict)
+        
+    changed_cols_df = pd.DataFrame.from_dict(rename_dict, orient='index').reset_index()
+    changed_cols_df.columns = ['original', 'current']
+    changed_cols_df['change_note'] = changed_cols_df.apply(
+        lambda x: 'renamed' 
+        if x['current']!=x['original'] 
+        else 'no_change', 
+        axis=1)
+    
+    if has_dropped & drop_rest:
+        changed_cols_df = changed_cols_df.append(dropped_df, ignore_index=True)
+        
+    try:    
+        changed_cols_df = changed_cols_df.merge(schema_df, how="left", left_on="original", right_on="name")
+    except Exception as e:
+        print(f"error finding data schema: {e}")
+        pass
+    
+    print(changed_cols_df.to_markdown())
+    df.rename(rename_dict, axis=1, inplace=True)
+    return(df, changed_cols_df)
+    

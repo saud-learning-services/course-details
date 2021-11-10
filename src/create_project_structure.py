@@ -17,33 +17,6 @@ def create_project_structure(course_id):
     
     if check_for_data(settings.DATA_FOLDER):
         print_success(f'DATA FOLDER FOUND FOR {course_id}\n')
-
-        # folders that need to be created if don't already
-        print(f'\nATTEMPTING TO CREATE PROJECT STRUCTURE\n')
-        if check_for_data(settings.APIOUTPUT_FOLDER, '\.csv'):
-            print(f'{settings.APIOUTPUT_FOLDER}: At least one csv found, creating project structures.')
-            
-            msg_list = '\n\t-'.join(
-                [create_folder(settings.PROJECT_FOLDER),
-                create_folder(settings.ORIGINALDATA_FOLDER)]
-                )
-
-            print(f'\n\t-{msg_list}')
-
-            # get list of csv files 
-            pattern = re.compile("*\.csv")
-            (_, _, filenames) = next(walk(settings.APIOUTPUT_FOLDER))
-            all_data_files = [i for i in filenames if re.search(pattern, i)]
-
-
-            for i in all_data_files:
-                try:
-                    _copy_to_folder(settings.APIOUTPUT_FOLDER, settings.ORIGINALDATA_FOLDER, i)
-                except:
-                    print(f"error in copy of {i}")
-
-        else:
-            print_unexpected(f'{settings.APIOUTPUT_FOLDER}: No csvs found, no project structure to create.')
         
         print(f'\nAttempting to parse new analytics data...\n')
         if check_for_data(settings.NEWANALYTICS_FOLDER, '.csv'):

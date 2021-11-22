@@ -32,8 +32,8 @@ def create_project_structure(course_id):
                 li.append(df)
 
             df = pd.concat(li, axis=0)
-            df.to_csv(f"{settings.ORIGINALDATA_FOLDER}/new_analytics_user_data_combined.csv")
-
+            df.to_csv(f"{settings.ORIGINALDATA_FOLDER}/new_analytics.csv")
+ 
         else:
             print(f'{settings.NEWANALYTICS_FOLDER}: No csvs found.')
 

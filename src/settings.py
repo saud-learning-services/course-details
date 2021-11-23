@@ -24,3 +24,5 @@ SCHEMAS_FOLDER = 'schemas' #included in project
 
 CLEANEDDATA_FOLDER = f'{PROJECT_FOLDER}/cleaned_data'
 CLEANDDATA_TRACKING_TRANSFORMATIONS = f'{CLEANEDDATA_FOLDER}/transformations'
+
+TABLEAU_FOLDER = f'{PROJECT_FOLDER}/tableau_data'

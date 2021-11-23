@@ -1,10 +1,10 @@
-from interface import print_success, print_unexpected, shut_down
-from helpers import create_folder, check_for_data, _copy_to_folder
+from interface import print_success, shut_down
+from helpers import check_for_data
 import glob
 import pandas as pd
 from settings import COURSE_ID
 import settings
-import re
+
 from os import walk
 
 """ 

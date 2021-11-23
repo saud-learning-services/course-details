@@ -124,7 +124,7 @@ ENROLLMENTS_DICT = {
 NEWANALYTICS_DICT = {
     "name": "new_analytics",
     "rename_dict": {
-            'globalStudentId': 'user_id',
+            'globalStudentId': 'global_user_id',
             'globalCourseId': 'global_course_id',
             'contentType': 'content_type',
             'contentName': 'content_name',

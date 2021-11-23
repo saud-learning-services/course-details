@@ -2,18 +2,23 @@ import pandas as pd
 import sys
 from helpers import transform_to_dict, schema_to_df, schema_rename_and_drop_columns
 from settings import COURSE_ID
+import settings
 import data_details
 
 
 
-def transform_data(in_folder, out_folder, file, rename_dict, schema_file, drop_rest=False):
+def transform_data(detail_dict, drop_rest=False):
     # TODO ADD DATE TO FILE AS HEADER
-    in_file =  f'{in_folder}/{file}.csv'
-    out_file = f'{out_folder}/{file}.csv'
+    file = f'{detail_dict["name"]}'
+    schema_file = f'{file}.txt'
+    rename_dict = detail_dict["rename_dict"]
+
+    in_file =  f'{settings.ORIGINALDATA_FOLDER}/{file}.csv'
+    out_file = f'{settings.CLEANEDDATA_FOLDER}/{file}.csv'
 
 
     tem = sys.stdout
-    sys.stdout = f = open(f'{out_folder}/{file}.md', 'w')
+    sys.stdout = f = open(f'{settings.CLEANEDDATA_FOLDER}/{file}.md', 'w')
     
     print(f'# {file}')
     
@@ -26,7 +31,7 @@ def transform_data(in_folder, out_folder, file, rename_dict, schema_file, drop_r
 
     print(f'\nWRITING: {out_file}.csv\n')
     df.to_csv(f'{out_file}', index=False)
-    data_dict[data_dict['change_note']!='deleted'].to_csv(f'{out_folder}/{file}_schema.csv', index=False)
+    data_dict[data_dict['change_note']!='deleted'].to_csv(f'{settings.CLEANEDDATA_FOLDER}/{file}_schema.csv', index=False)
     
     sys.stdout = tem
     f.close()
@@ -41,6 +46,8 @@ def main(COURSE_ID):
     user_data_folder = f'{data_folder}/user_data'
     course_structure = f'{data_folder}/course_structure/'
     cleaned_folder = f'{data_folder}/transformed/cleaned_data'
+
+    transform_data(ASSIGNMENTS_DICT, True)
 
     ## COURSE STRUCTURE FIRST
     transform_data(course_structure, cleaned_folder, "assignments", data_details.ASSIGNMENTS_DICT, "schemas/assignments.txt", True)

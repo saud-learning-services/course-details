@@ -23,3 +23,4 @@ GRADEBOOK_FOLDER = f'{RAW_FOLDER}/gradebook_input'
 SCHEMAS_FOLDER = 'schemas' #included in project
 
 CLEANEDDATA_FOLDER = f'{PROJECT_FOLDER}/cleaned_data'
+CLEANDDATA_TRACKING_TRANSFORMATIONS = f'{CLEANEDDATA_FOLDER}/transformations'

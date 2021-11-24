@@ -50,7 +50,6 @@ def combine_enrollment_and_new_analytics():
             if match:
                 return(match.group(3))
         except:
-            print(f"Error: {somestring}")
             return(None)
         else:
             return(None)

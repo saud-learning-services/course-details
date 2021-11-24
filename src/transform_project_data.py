@@ -52,6 +52,7 @@ def main(COURSE_ID):
     transform_data(data_details.ASSIGNMENTSUBMISSIONS_DICT, True)
     transform_data(data_details.ENROLLMENTS_DICT, True)
     transform_data(data_details.NEWANALYTICS_DICT, True)
+    transform_data(data_details.GRADEBOOKUSERDATA_DICT, True)
 
 if __name__ == "__main__":
     main(COURSE_ID)

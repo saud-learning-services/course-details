@@ -136,3 +136,14 @@ NEWANALYTICS_DICT = {
             'file': 'original_data_file'
     }
 }
+
+GRADEBOOKUSERDATA_DICT = {
+    "name": "gradebook_user_data",
+    "rename_dict": {
+        "ID": "canvas_user_id",
+        "Current Points": "gb_current_points",
+        "Final Points": "gb_final_points",
+        "Current Score": "gb_current_score",
+        "Final Score": "gb_final_score"
+    }
+}

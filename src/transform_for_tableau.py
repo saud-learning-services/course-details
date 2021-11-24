@@ -4,7 +4,7 @@ import json
 import numpy as np
 import datetime
 import re
-from settings import COURSE_ID, CLEANEDDATA_FOLDER, TABLEAU_FOLDER
+from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER
 
 def _parse_date_time(str):
     try:
@@ -24,12 +24,10 @@ def combine_course_structure():
     modules_and_items['item_overall_order'] = np.arange(len(modules_and_items.sort_values('item_order')))
     modules_and_items.to_csv(f'{TABLEAU_FOLDER}/module_and_items.csv', index=False)
 
-    CLEANEDDATA_FOLDER = 'cleaned_data'
-    TABLEAU_FOLDER = f'transformed_data'
 
 def combine_enrollment_and_new_analytics():
 
-    new_analytics =  pd.read_csv(f'{CLEANEDDATA_FOLDER}/new_analytics_user_data_combined.csv')
+    new_analytics =  pd.read_csv(f'{CLEANEDDATA_FOLDER}/new_analytics.csv')
 
     enrollment = pd.read_csv(f'{CLEANEDDATA_FOLDER}/enrollments.csv')
 
@@ -53,7 +51,7 @@ def combine_enrollment_and_new_analytics():
     student_analytics = student_analytics.query(f'filetype=={keepfiles}')
     student_analytics.to_csv(f'{TABLEAU_FOLDER}/student_analytics_noimages.csv', index=False)
 
-def course_assignments_and_dates():
+def course_assignments_and_dates(student_analytics):
     first_date = student_analytics['access_date'].min()
     last_date = student_analytics['access_date'].max()
     all_dates = pd.date_range(start=first_date,end=last_date, freq="D").date.tolist()
@@ -71,7 +69,7 @@ def course_assignments_and_dates():
     dates_df = dates_df.merge(assignments, on="date", how="left")
     dates_df.to_csv(f"{TABLEAU_FOLDER}/course_dates.csv")
 
-    gb_info = pd.read_csv('cleaned_data/assignments.csv')
+    gb_info = pd.read_csv('f{CLEANEDDATA_FOLDER}/assignments.csv')
     gb_info = gb_info.drop(['assignment_description', 'assignment_workflow_state', 'assignment_rubric',\
                             'assignment_is_quiz', 'assignment_is_published'], axis=1)
 

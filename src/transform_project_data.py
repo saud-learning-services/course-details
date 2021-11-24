@@ -1,7 +1,6 @@
 import pandas as pd
 import sys
 from helpers import create_folder, schema_rename_and_drop_columns
-from settings import COURSE_ID
 import settings
 import data_details
 
@@ -40,7 +39,7 @@ def transform_data(detail_dict, drop_rest=False):
 
 # MOST OF THESE FOLDERS NEED TO CHANGE
 
-def transform_the_project_data(COURSE_ID):
+def transform_project_data_fn():
     create_folder(settings.CLEANEDDATA_FOLDER)
     create_folder(settings.CLEANDDATA_TRACKING_TRANSFORMATIONS)
 
@@ -55,4 +54,4 @@ def transform_the_project_data(COURSE_ID):
     transform_data(data_details.GRADEBOOKUSERDATA_DICT, True)
 
 if __name__ == "__main__":
-    transform_the_project_data(COURSE_ID)
+    transform_project_data_fn()

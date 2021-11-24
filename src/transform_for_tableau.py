@@ -97,7 +97,7 @@ def clean_gradebook_data():
     gb_data = pd.read_csv(f'{CLEANEDDATA_FOLDER}/gradebook_user_data.csv') 
     gb_data.to_csv(f"{TABLEAU_FOLDER}/user_final_score.csv", index=False)
 
-def transform_for_tableau():
+def transform_for_tableau_fn():
 
     create_folder(TABLEAU_FOLDER)
     
@@ -110,4 +110,4 @@ def transform_for_tableau():
     print_success("Data formatted for Tableau complete!")
 
 if __name__ == "__main__":
-    transform_for_tableau()
+    transform_for_tableau_fn()

@@ -19,7 +19,7 @@ Given a course id, extracts details of course including:
 - [quizzes](https://canvas.instructure.com/doc/api/quizzes#method.quizzes/quizzes_api.index) 
 - [pages](https://canvas.instructure.com/doc/api/pages#method.wiki_pages_api.index)
 - [enrollments](https://canvas.instructure.com/doc/api/enrollments.html#method.enrollments_api.index)
-- [tabs (navigation)](https://canvas.instructure.com/doc/api/tabs.html#method.tabs.index)
+- [tabs (navigation)](https://canvas.instructure.com/doc/api/tabs.html#method.tabs.index) [NOT IMPLEMENTED]
 - *external tools* 
 - features
 - [discussion_topics](https://canvas.instructure.com/doc/api/discussion_topics.html#method.discussion_topics.index)
@@ -35,9 +35,8 @@ Given a course id, extracts details of course including:
 
 ### Student Interaction
 - A user can download student interaction data in Canvas from New Analytics. Given that the data is downloaded consistently (Canvas only has 27 days in New Analytics), and stored in `data/{COURSE_ID}/new_analytics_input` when prompted, the goal is to be able to combine student interaction with other course and student data for a "full picture" of the course and its activity. 
-- The assumption is you are using the direct download of New Analytics data. 
+- The assumption is you are using the **direct download** of New Analytics data. 
 
-![shows relationship between scope](img/simple_project_scope.png)
 
 ## 🚀 Use
 ### Computer Setup
@@ -95,50 +94,22 @@ In the terminal in VS Code:
  
 #### 6. Run the scripts! (In terminal:)
 > *The scripts will require user input - indicated in Blue. You will get confirmations of success in Green. If anything goes terribly wrong you will see Red output in terminal.*
+ 
+#### Running will do the following:
+- extract canvas data from the course specified in the .env file
+- ask you to add new analytics data to a specific folder
+- ask you to add a "gradebook.csv" into a specific folder 
+- create several versions of data: original_data (as-is from Canvas), cleaned_data (renamed and reduced columns), and tableau_data (which is the format needed to use the Tableau template)
 
-You have two options: a) run all of the scripts at once, or b) follow step by step and run the scripts you need. If you don't need anonymized data, then I suggest following "run the scripts one at a time" and following steps a-c. 
-#### 6.1 If you want to *run all of the scripts* which will:
-- extract canvas data 
-- ask you to add new analytics data to a specific folder 
-- create a new project_data folder and structure
-- create anonymized versions of data 
 
 
-Then you just need to run one command: 
-> `$ python src/project_and_anonymize.py` 
+You just need to run one command and follow the prompts: 
+> `$ python src/do_it_all.py` 
 
 Note: this will replace any existing data if you have extracted data before. There will also be a number of inputs in terminal to enter. 
 
 **If you've sucessfully run all of the scripts, then you're done!**
-#### 6.2 If you want to *run the scripts one at a time* then follow steps a-d below:
 
-<br>
-   a) The first script gets the data from Canvas and creates your first set of folders in **course-details/data**. 
-   
-   > `$ python src/get_course_data.py` 
-
-   If all goes well, you should see Hello <your_name_here>! and a new folder in the output with the given course_id and the data. 
-
-   ![image_of_env_file](img/step-a-folder-output.png)
-<br>
-
-   b) Once run successfully, you should have a folder data/COURSE_ID/raw/new_analytics_input. 
-   > Add any new analytics files you have downloaded to this folder.
-
-   We assume you have used the direct download of the New Analytics data (and not filtered data which has different file patterns)
-<br>
-
-   c) Once run successfully and your new analytics files added, run the next script which will reorganize your files into project_data (this is needed to be anonymized next)
-   > `$ python src/create_project_structure.py`
-
-   You will now see a project_data folder with course_structure and user_data files organized. All user_data files are those with any user identifiers included. 
-
-   ![image_of_env_file](img/step-b-folder-output.png)
-<br>
-   d) Now, if you need to anonymize your data, run the last script. This will copy all course_structure data, and make anonymized versions of user_data. It will also create a folder with data called project_data_anonymized_keys for if you need to pull all of the anonymized data back together. 
-   > `$ python src/anonymizer.py`
-
-   ![image_of_env_file](img/step-d-folder-output.png)
 
 
 ## 🌟 Acknowledgements & Contributions

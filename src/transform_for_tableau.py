@@ -64,7 +64,7 @@ def combine_enrollment_and_new_analytics():
 
 def course_assignments_and_dates(student_analytics):
     student_analytics = student_analytics[student_analytics['global_user_id'].notna()]
-    
+
     first_date = student_analytics['access_date'].min()
     last_date = student_analytics['access_date'].max()
     all_dates = pd.date_range(start=first_date,end=last_date, freq="D").date.tolist()
@@ -84,7 +84,7 @@ def course_assignments_and_dates(student_analytics):
 
 def clean_submissions_data():
     gb_info = pd.read_csv(f'{CLEANEDDATA_FOLDER}/assignments.csv')
-    gb_info = gb_info.drop(['assignment_description', 'assignment_workflow_state', 'assignment_rubric',\
+    gb_info = gb_info.drop(['assignment_description', 'assignment_workflow_state',\
                             'assignment_is_quiz', 'assignment_is_published'], axis=1)
 
     submissions_df = pd.read_csv(f'{CLEANEDDATA_FOLDER}/assignment_submissions.csv').drop('course_id', axis=1)

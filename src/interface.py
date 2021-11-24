@@ -1,6 +1,5 @@
 
 import getpass
-from canvasapi import Canvas
 from termcolor import cprint, colored
 import sys
 

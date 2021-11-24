@@ -5,6 +5,7 @@ import numpy as np
 import datetime
 import re
 from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER
+from helpers import create_folder
 
 def _parse_date_time(str):
     try:
@@ -28,7 +29,8 @@ def combine_course_structure():
 def combine_enrollment_and_new_analytics():
 
     new_analytics =  pd.read_csv(f'{CLEANEDDATA_FOLDER}/new_analytics.csv')
-    new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: x-112240000000000000)
+    new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: int(x)-112240000000000000)
+    
 
     enrollment = pd.read_csv(f'{CLEANEDDATA_FOLDER}/enrollments.csv')
 
@@ -37,9 +39,12 @@ def combine_enrollment_and_new_analytics():
     enrollment = enrollment.reset_index()
     enrollment.columns = ["user_order_id", "user_id"]
     enrollment["user_order_id"] = enrollment["user_order_id"] +1
-    student_analytics = enrollment.merge(new_analytics, how="left", on="user_id")
 
-    def extract_file_type(somestring):
+    
+    student_analytics = enrollment.merge(new_analytics, how="left", on="user_id")
+ 
+    def _extract_file_type(somestring):
+
         match_str = re.compile("(.*)(\.)([a-zA-Z]{3}$)") 
         match = re.match(match_str, somestring)
         if match:
@@ -47,8 +52,9 @@ def combine_enrollment_and_new_analytics():
         else:
             return(None)
         
-    keepfiles = [None, "csv", "zip", "txt", "pdf"]    
-    student_analytics['filetype'] = student_analytics["content_name"].apply(lambda x: extract_file_type(x))
+    keepfiles = [None, "csv", "zip", "txt", "pdf"]  
+    print(student_analytics['content_name'].head())  
+    student_analytics['filetype'] = student_analytics["content_name"].apply(lambda x: _extract_file_type(x))
     student_analytics = student_analytics.query(f'filetype=={keepfiles}')
     student_analytics.to_csv(f'{TABLEAU_FOLDER}/student_analytics_noimages.csv', index=False)
 
@@ -73,7 +79,7 @@ def course_assignments_and_dates(student_analytics):
 
 
 def clean_submissions_data():
-    gb_info = pd.read_csv('f{CLEANEDDATA_FOLDER}/assignments.csv')
+    gb_info = pd.read_csv(f'{CLEANEDDATA_FOLDER}/assignments.csv')
     gb_info = gb_info.drop(['assignment_description', 'assignment_workflow_state', 'assignment_rubric',\
                             'assignment_is_quiz', 'assignment_is_published'], axis=1)
 
@@ -88,6 +94,9 @@ def clean_gradebook_data():
     gb_data.to_csv(f"{TABLEAU_FOLDER}/user_final_score.csv", index=False)
 
 def main():
+
+    create_folder(TABLEAU_FOLDER)
+    
     combine_course_structure()
     stud_analytics = combine_enrollment_and_new_analytics()
     course_assignments_and_dates(stud_analytics)

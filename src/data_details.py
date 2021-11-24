@@ -9,7 +9,7 @@ ASSIGNMENTS_DICT = {
             'name': 'assignment_title',
             'submission_types': 'assignment_submission_types',
             'workflow_state': 'assignment_workflow_state',
-            'rubric': 'assignment_rubric',
+            #'rubric': 'assignment_rubric',
             'is_quiz_assignment': 'assignment_is_quiz',
             'published': 'assignment_is_published',
             'course_id': 'course_id'

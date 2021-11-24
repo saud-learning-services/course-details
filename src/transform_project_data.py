@@ -40,7 +40,7 @@ def transform_data(detail_dict, drop_rest=False):
 
 # MOST OF THESE FOLDERS NEED TO CHANGE
 
-def main(COURSE_ID):
+def transform_the_project_data(COURSE_ID):
     create_folder(settings.CLEANEDDATA_FOLDER)
     create_folder(settings.CLEANDDATA_TRACKING_TRANSFORMATIONS)
 
@@ -55,4 +55,4 @@ def main(COURSE_ID):
     transform_data(data_details.GRADEBOOKUSERDATA_DICT, True)
 
 if __name__ == "__main__":
-    main(COURSE_ID)
+    transform_the_project_data(COURSE_ID)

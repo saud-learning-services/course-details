@@ -1,9 +1,11 @@
-from interface import print_success, print_unexpected, shut_down
-from helpers import create_folder, check_for_data, _copy_to_folder
+from interface import print_success, shut_down
+from helpers import check_for_data
 import glob
 import pandas as pd
 from settings import COURSE_ID
 import settings
+
+from os import walk
 
 """ 
 Once data collected, this script will create a "project_folder"
@@ -11,37 +13,10 @@ and reorganize data as appropriate.
 """
         
 # create folder called project_data
-def create_project_structure(course_id):
+def create_project_structure():
     
     if check_for_data(settings.DATA_FOLDER):
-        print_success(f'DATA FOLDER FOUND FOR {course_id}\n')
-
-        # folders that need to be created if don't already
-        print(f'\nATTEMPTING TO CREATE PROJECT STRUCTURE\n')
-        if check_for_data(settings.APIOUTPUT_FOLDER, '\.csv'):
-            print(f'{settings.APIOUTPUT_FOLDER}: At least one csv found, creating project structures.')
-            
-            msg_list = '\n\t-'.join(
-                [create_folder(settings.PROJECT_FOLDER),
-                create_folder(settings.COURSESTRUCTURE_FOLDER),
-                create_folder(settings.USERDATA_FOLDER),
-                create_folder(settings.CLEANEDDATA_FOLDER),
-                create_folder(settings.TRANSFORMEDDATA_FOLDER)]
-                )
-
-            print(f'\n\t-{msg_list}')
-
-            for i in settings.COURSESTRUCTURE_FILES:
-                try:
-                    _copy_to_folder(settings.APIOUTPUT_FOLDER, settings.COURSESTRUCTURE_FOLDER, i)
-                except:
-                    print(f"error in copy of {i}")
-
-            for i in settings.USERDATA_FILES:
-                _copy_to_folder(settings.APIOUTPUT_FOLDER, settings.USERDATA_FOLDER, i)
-
-        else:
-            print_unexpected(f'{settings.APIOUTPUT_FOLDER}: No csvs found, no project structure to create.')
+        print_success(f'DATA FOLDER FOUND {settings.DATA_FOLDER}\n')
         
         print(f'\nAttempting to parse new analytics data...\n')
         if check_for_data(settings.NEWANALYTICS_FOLDER, '.csv'):
@@ -57,8 +32,8 @@ def create_project_structure(course_id):
                 li.append(df)
 
             df = pd.concat(li, axis=0)
-            df.to_csv(f"{settings.USERDATA_FOLDER}/new_analytics_user_data_combined.csv")
-
+            df.to_csv(f"{settings.ORIGINALDATA_FOLDER}/new_analytics.csv")
+ 
         else:
             print(f'{settings.NEWANALYTICS_FOLDER}: No csvs found.')
 
@@ -70,18 +45,18 @@ def create_project_structure(course_id):
             column_names = list(gb_detail.columns)
             gb_user = pd.read_csv(f'{settings.GRADEBOOK_FOLDER}/gradebook.csv', names = column_names, skiprows=3)
 
-            gb_user.to_csv(f"{settings.USERDATA_FOLDER}/gradebook_user_data.csv", index=False)
-            gb_detail.to_csv(f"{settings.COURSESTRUCTURE_FOLDER}/gradebook_details.csv", index=False)
+            gb_user.to_csv(f"{settings.ORIGINALDATA_FOLDER}/gradebook_user_data.csv", index=False)
+            gb_detail.to_csv(f"{settings.ORIGINALDATA_FOLDER}/gradebook_details.csv", index=False)
 
         else:
             print(f'{settings.GRADEBOOK_FOLDER}: No csvs found.')
 
     else:
-        shut_down(f'NO DATA FOLDER FOUND FOR: {course_id}')
+        shut_down(f'NO DATA FOLDER FOUND FOR: {settings.DATA_FOLDER}')
 
 
 if __name__ == "__main__":
-    create_project_structure(COURSE_ID)
+    create_project_structure()
 
     # if there is data in new_analytics_input
     # check that all files follow the same structure (column names)

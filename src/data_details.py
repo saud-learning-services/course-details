@@ -9,7 +9,7 @@ ASSIGNMENTS_DICT = {
             'name': 'assignment_title',
             'submission_types': 'assignment_submission_types',
             'workflow_state': 'assignment_workflow_state',
-            'rubric': 'assignment_rubric',
+            #'rubric': 'assignment_rubric',
             'is_quiz_assignment': 'assignment_is_quiz',
             'published': 'assignment_is_published',
             'course_id': 'course_id'
@@ -124,7 +124,7 @@ ENROLLMENTS_DICT = {
 NEWANALYTICS_DICT = {
     "name": "new_analytics",
     "rename_dict": {
-            'globalStudentId': 'user_id',
+            'globalStudentId': 'global_user_id',
             'globalCourseId': 'global_course_id',
             'contentType': 'content_type',
             'contentName': 'content_name',
@@ -134,5 +134,16 @@ NEWANALYTICS_DICT = {
             'lastAccessTime': 'last_access_datetime',
             'firstAccessTime': 'first_access_datetime',
             'file': 'original_data_file'
+    }
+}
+
+GRADEBOOKUSERDATA_DICT = {
+    "name": "gradebook_user_data",
+    "rename_dict": {
+        "ID": "user_id",
+        "Current Points": "gb_current_points",
+        "Final Points": "gb_final_points",
+        "Current Score": "gb_current_score",
+        "Final Score": "gb_final_score"
     }
 }

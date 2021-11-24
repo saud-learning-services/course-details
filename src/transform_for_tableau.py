@@ -84,10 +84,8 @@ def clean_submissions_data():
     submissions_df.to_csv(f'{TABLEAU_FOLDER}/student_assignment_details.csv')
 
 def clean_gradebook_data():
-    gb_data = pd.read_csv(f'{CLEANEDDATA_FOLDER}/gradebook_user_data.csv')
-    gb_data['user_id'] = gb_data['ID_anon'] 
-    final_scores = gb_data[['user_id', 'Current Score', 'Final Score']]
-    final_scores.to_csv(f"{TABLEAU_FOLDER}/user_final_score.csv", index=False)
+    gb_data = pd.read_csv(f'{CLEANEDDATA_FOLDER}/gradebook_user_data.csv') 
+    gb_data.to_csv(f"{TABLEAU_FOLDER}/user_final_score.csv", index=False)
 
 def main():
     combine_course_structure()
@@ -95,3 +93,6 @@ def main():
     course_assignments_and_dates(stud_analytics)
     clean_submissions_data()
     clean_gradebook_data()
+
+if __name__ == "__main__":
+    main()

@@ -13,10 +13,10 @@ and reorganize data as appropriate.
 """
         
 # create folder called project_data
-def create_project_structure(course_id):
+def create_project_structure():
     
     if check_for_data(settings.DATA_FOLDER):
-        print_success(f'DATA FOLDER FOUND FOR {course_id}\n')
+        print_success(f'DATA FOLDER FOUND {settings.DATA_FOLDER}\n')
         
         print(f'\nAttempting to parse new analytics data...\n')
         if check_for_data(settings.NEWANALYTICS_FOLDER, '.csv'):
@@ -52,11 +52,11 @@ def create_project_structure(course_id):
             print(f'{settings.GRADEBOOK_FOLDER}: No csvs found.')
 
     else:
-        shut_down(f'NO DATA FOLDER FOUND FOR: {course_id}')
+        shut_down(f'NO DATA FOLDER FOUND FOR: {settings.DATA_FOLDER}')
 
 
 if __name__ == "__main__":
-    create_project_structure(COURSE_ID)
+    create_project_structure()
 
     # if there is data in new_analytics_input
     # check that all files follow the same structure (column names)

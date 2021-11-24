@@ -6,6 +6,7 @@ import datetime
 import re
 from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER
 from helpers import create_folder
+from interface import print_success
 
 def _parse_date_time(str):
     try:
@@ -105,6 +106,8 @@ def main():
     course_assignments_and_dates(stud_analytics)
     clean_submissions_data()
     clean_gradebook_data()
+
+    print_success("Data formatted for Tableau complete!")
 
 if __name__ == "__main__":
     main()

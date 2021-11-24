@@ -4,16 +4,9 @@
 > THIS IS A WIP PROJECT
 > Questions? Talk to Alison :) 
 
-Given a course id, extracts details of course including:
+Given a course id, extracts details of course and combines with collected New Analytics extracts.
 
-## Goals
-3 levels of "data" 
-1. Skeleton 
-2. Course Details
-3. Student Details
-4. Student Interaction -> outside of scope of API data (aspirational)
-
-## 🗂 Data Structures
+## 🗂 Data
 ### Skeleton
 - [assignments](https://canvas.instructure.com/doc/api/assignments.html#method.assignments_api.index)
 - [quizzes](https://canvas.instructure.com/doc/api/quizzes#method.quizzes/quizzes_api.index) 
@@ -34,7 +27,7 @@ Given a course id, extracts details of course including:
 - [student_submissions](https://canvas.instructure.com/doc/api/submissions#method.submissions_api.for_students)
 
 ### Student Interaction
-- A user can download student interaction data in Canvas from New Analytics. Given that the data is downloaded consistently (Canvas only has 27 days in New Analytics), and stored in `data/{COURSE_ID}/new_analytics_input` when prompted, the goal is to be able to combine student interaction with other course and student data for a "full picture" of the course and its activity. 
+- A user can download student interaction data in Canvas from New Analytics. Given that the data is downloaded consistently (Canvas only has 27 days in New Analytics), and stored in `data/{COURSE_ID}/user_input/new_analytics_input` when prompted, the goal is to be able to combine student interaction with other course and student data for a "full picture" of the course and its activity. 
 - The assumption is you are using the **direct download** of New Analytics data. 
 
 
@@ -108,7 +101,16 @@ You just need to run one command and follow the prompts:
 
 Note: this will replace any existing data if you have extracted data before. There will also be a number of inputs in terminal to enter. 
 
-**If you've sucessfully run all of the scripts, then you're done!**
+**If you've sucessfully run all of the scripts, then you're done!** 
+
+You should now see the folders for your course:
+
+- project_data
+    - cleaned_data
+        - transformations
+    - original_data
+    - tableau_data
+- user_input
 
 
 

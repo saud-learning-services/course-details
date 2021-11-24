@@ -44,23 +44,27 @@ def combine_enrollment_and_new_analytics():
     student_analytics = enrollment.merge(new_analytics, how="left", on="user_id")
  
     def _extract_file_type(somestring):
-
-        match_str = re.compile("(.*)(\.)([a-zA-Z]{3}$)") 
-        match = re.match(match_str, somestring)
-        if match:
-            return(match.group(3))
+        try:
+            match_str = re.compile("(.*)(\.)([a-zA-Z]{3}$)") 
+            match = re.match(match_str, somestring)
+            if match:
+                return(match.group(3))
+        except:
+            print(f"Error: {somestring}")
+            return(None)
         else:
             return(None)
         
     keepfiles = [None, "csv", "zip", "txt", "pdf"]  
-    print(student_analytics['content_name'].head())  
     student_analytics['filetype'] = student_analytics["content_name"].apply(lambda x: _extract_file_type(x))
-    student_analytics = student_analytics.query(f'filetype=={keepfiles}')
+    student_analytics = student_analytics.query("`filetype` == @keepfiles")
     student_analytics.to_csv(f'{TABLEAU_FOLDER}/student_analytics_noimages.csv', index=False)
 
     return(student_analytics)
 
 def course_assignments_and_dates(student_analytics):
+    student_analytics = student_analytics[student_analytics['global_user_id'].notna()]
+    
     first_date = student_analytics['access_date'].min()
     last_date = student_analytics['access_date'].max()
     all_dates = pd.date_range(start=first_date,end=last_date, freq="D").date.tolist()

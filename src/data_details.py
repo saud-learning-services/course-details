@@ -115,7 +115,9 @@ ENROLLMENTS_DICT = {
             'type': 'enrollment_type',
             'course_section_id': 'enrollment_course_section',
             'role': 'user_role',
-            'enrollment_state': 'enrollment_state'
+            'enrollment_state': 'enrollment_state',
+            'user': 'user',
+            'grade': 'grades'
     }
 }
 

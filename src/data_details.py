@@ -117,7 +117,7 @@ ENROLLMENTS_DICT = {
             'role': 'user_role',
             'enrollment_state': 'enrollment_state',
             'user': 'user',
-            'grade': 'grades'
+            'grades': 'grades'
     }
 }
 

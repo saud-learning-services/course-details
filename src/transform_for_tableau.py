@@ -31,6 +31,7 @@ def combine_enrollment_and_new_analytics():
 
     new_analytics =  pd.read_csv(f'{CLEANEDDATA_FOLDER}/new_analytics.csv')
     new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: int(x)-112240000000000000)
+    new_analytics['course_id'] = new_analytics['global_course_id'].apply(lambda x: int(x)-112240000000000000)
     
 
     enrollment = pd.read_csv(f'{CLEANEDDATA_FOLDER}/enrollments.csv')

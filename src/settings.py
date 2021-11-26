@@ -4,6 +4,7 @@ import helpers
 load_dotenv()
 COURSE_ID = helpers.get_course_code()
 
+INST_CODE = 112240000000000000
 # project structure folders 
 DATA_FOLDER = f'data/{COURSE_ID}'
 

@@ -36,12 +36,15 @@ def combine_enrollment_and_new_analytics():
 
     enrollment = pd.read_csv(f'{CLEANEDDATA_FOLDER}/enrollments.csv')
 
+
     # filter to active student data only
     enrollment = enrollment.query("enrollment_type=='StudentEnrollment' & enrollment_state=='active'")[["user_id"]]
     enrollment = enrollment.reset_index()
     enrollment.columns = ["user_order_id", "user_id"]
     enrollment["user_order_id"] = enrollment["user_order_id"] +1
 
+    enrollment["student"] = enrollment.apply(lambda x: x["user"].get("name"))
+    enrollment["gb_final_"]
     
     student_analytics = enrollment.merge(new_analytics, how="left", on="user_id")
  

@@ -4,7 +4,7 @@ import json
 import numpy as np
 import datetime
 import re
-from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER
+from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER, INST_CODE
 from helpers import create_folder
 from interface import print_success
 
@@ -30,8 +30,8 @@ def combine_course_structure():
 def combine_enrollment_and_new_analytics():
 
     new_analytics =  pd.read_csv(f'{CLEANEDDATA_FOLDER}/new_analytics.csv')
-    new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: int(x)-112240000000000000)
-    new_analytics['course_id'] = new_analytics['global_course_id'].apply(lambda x: int(x)-112240000000000000)
+    new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: int(x)-INST_CODE)
+    new_analytics['course_id'] = new_analytics['global_course_id'].apply(lambda x: int(x)-INST_CODE)
     
 
     enrollment = pd.read_csv(f'{CLEANEDDATA_FOLDER}/enrollments.csv')
@@ -47,7 +47,7 @@ def combine_enrollment_and_new_analytics():
  
     def _extract_file_type(somestring):
         try:
-            match_str = re.compile("(.*)(\.)([a-zA-Z]{3}$)") 
+            match_str = re.compile("(.*)(\.)([a-zA-Z]{3, 4}$)") #TODO - 4 chars, i.e) .jpeg
             match = re.match(match_str, somestring)
             if match:
                 return(match.group(3))
@@ -55,7 +55,8 @@ def combine_enrollment_and_new_analytics():
             return(None)
         else:
             return(None)
-        
+
+    
     keepfiles = [None, "csv", "zip", "txt", "pdf"]  
     student_analytics['filetype'] = student_analytics["content_name"].apply(lambda x: _extract_file_type(x))
     student_analytics = student_analytics.query("`filetype` == @keepfiles")

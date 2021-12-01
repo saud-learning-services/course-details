@@ -1,15 +1,16 @@
 name: canvas-get-course-details
-channels: 
+channels:
   - anaconda-fusion
   - defaults
   - conda-forge
-dependencies: 
+dependencies:
   - jupyter
   - python>=3.7.0
   - pandas
   - pip
-  - pip: 
+  - pip:
       - canvasapi>= 2.0.0
       - python-dotenv
       - termcolor
       - tabulate
+      - yaspin

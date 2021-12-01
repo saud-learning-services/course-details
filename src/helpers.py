@@ -4,6 +4,7 @@ from os import walk
 import re
 from interface import print_unexpected, print_success, shut_down
 from shutil import copyfile
+from yaspin import yaspin
 import pandas as pd
 import json
 
@@ -80,6 +81,7 @@ def _copy_to_folder(src_folder, dst_folder, file_name, print_details=False):
 
     return
 
+@yaspin(text="Generating: ")
 def create_df_and_csv(paginatedlist, data_dict, output_folder, iteration_call=None):
     #TODO - figure out "best" structure for this kind of data
     

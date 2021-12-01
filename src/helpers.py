@@ -81,7 +81,6 @@ def _copy_to_folder(src_folder, dst_folder, file_name, print_details=False):
 
     return
 
-@yaspin(text="Generating: ")
 def create_df_and_csv(paginatedlist, data_dict, output_folder, iteration_call=None):
     #TODO - figure out "best" structure for this kind of data
     
@@ -100,27 +99,29 @@ def create_df_and_csv(paginatedlist, data_dict, output_folder, iteration_call=No
         csv in output_path if data available
         
     """
+    output_file = f'{output_folder}/{data_dict["name"]}.csv'
 
     try:
         if iteration_call:
             iteration_list = []
 
-            for i in paginatedlist:
-                items = getattr(i, iteration_call)
+            with yaspin(text=f"Generating: {output_file}"):
+                for i in paginatedlist:
+                    items = getattr(i, iteration_call)
 
-                for j in items():
-                    j_dict = j.__dict__
-                    iteration_list.append(j_dict)
+                    for j in items():
+                        j_dict = j.__dict__
+                        iteration_list.append(j_dict)
             
             df = pd.DataFrame(iteration_list)
 
 
         else:            
-            df = pd.DataFrame([i.__dict__ for i in paginatedlist])
+            with yaspin(text=f"Generating: {output_file}"):
+                df = pd.DataFrame([i.__dict__ for i in paginatedlist])
 
 
-        output_file = f'{output_folder}/{data_dict["name"]}.csv'
-        print(output_file)
+        print_success(f"Generated: {output_file}")
         data_dict.update({"raw_csv": output_file})
         df.to_csv(f'{output_file}')
         data_dict.update({'df': df})

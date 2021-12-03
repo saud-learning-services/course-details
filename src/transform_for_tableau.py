@@ -4,9 +4,21 @@ import json
 import numpy as np
 import datetime
 import re
-from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER
+import ast
+from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER, INST_CODE
 from helpers import create_folder
 from interface import print_success
+
+def _extract_file_type(somestring):
+    try:
+        match_str = re.compile("(.*)(\.)([a-zA-Z]{3}$)") #TODO - 4 chars, i.e) .jpeg
+        match = re.match(match_str, somestring)
+        if match:
+            return(match.group(3))
+    except:
+        return(None)
+    else:
+        return(None)
 
 def _parse_date_time(str):
     try:
@@ -30,39 +42,60 @@ def combine_course_structure():
 def combine_enrollment_and_new_analytics():
 
     new_analytics =  pd.read_csv(f'{CLEANEDDATA_FOLDER}/new_analytics.csv')
-    new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: int(x)-112240000000000000)
-    
+    new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: int(x)-INST_CODE)
+    new_analytics['course_id'] = new_analytics['global_course_id'].apply(lambda x: int(x)-INST_CODE)
 
     enrollment = pd.read_csv(f'{CLEANEDDATA_FOLDER}/enrollments.csv')
 
-    # filter to active student data only
-    enrollment = enrollment.query("enrollment_type=='StudentEnrollment' & enrollment_state=='active'")[["user_id"]]
-    enrollment = enrollment.reset_index()
-    enrollment.columns = ["user_order_id", "user_id"]
-    enrollment["user_order_id"] = enrollment["user_order_id"] +1
-
-    
-    student_analytics = enrollment.merge(new_analytics, how="left", on="user_id")
- 
-    def _extract_file_type(somestring):
-        try:
-            match_str = re.compile("(.*)(\.)([a-zA-Z]{3}$)") 
-            match = re.match(match_str, somestring)
-            if match:
-                return(match.group(3))
-        except:
-            return(None)
-        else:
-            return(None)
+    try:
+        # filter to active student data only
         
-    keepfiles = [None, "csv", "zip", "txt", "pdf"]  
-    student_analytics['filetype'] = student_analytics["content_name"].apply(lambda x: _extract_file_type(x))
-    student_analytics = student_analytics.query("`filetype` == @keepfiles")
-    student_analytics.to_csv(f'{TABLEAU_FOLDER}/student_analytics_noimages.csv', index=False)
+        def get_value(x, key):
+            try:
+                return(ast.literal_eval(x).get(key))
+            except:
+                return(None)
 
-    return(student_analytics)
+        enrollment["student"] = enrollment["user"].apply(lambda x: get_value(x, "name"))
+
+        user_scores = enrollment[["user_id", "student", "user_role", "grades"]].copy()
+        
+        user_scores["gb_current_score"] = user_scores["grades"].apply(lambda x: get_value(x, "current_score"))
+        user_scores["gb_final_score"] = user_scores["grades"].apply(lambda x: get_value(x, "final_score"))
+        user_scores = user_scores[["user_id", "student", "user_role", "gb_current_score", "gb_final_score"]]
+        user_scores.to_csv(f"{TABLEAU_FOLDER}/user_final_score.csv", index=False)
+
+
+        enrollment = enrollment[["user_id", "student", "enrollment_type", "enrollment_state"]]
+        
+
+
+        # CREATE USER ORDER ID & FILTER TO STUDENTS
+        user_order_df = enrollment.query("enrollment_type=='StudentEnrollment' & enrollment_state=='active'")[["user_id"]]
+        user_order_df = user_order_df.reset_index()
+        user_order_df.columns = ["user_order_id", "user_id"]
+        user_order_df["user_order_id"] = user_order_df["user_order_id"] +1
+
+        enrollment = user_order_df.merge(enrollment, on="user_id", how="left")
+
+        
+        student_analytics = enrollment.merge(new_analytics, how="left", on="user_id")
+    
+        
+        keepfiles = [None, "csv", "zip", "txt", "pdf"]  
+        student_analytics['filetype'] = student_analytics["content_name"].apply(lambda x: _extract_file_type(x))
+        student_analytics = student_analytics.query("`filetype` == @keepfiles")
+        output = student_analytics.drop(["global_user_id", "global_course_id"], axis=1)
+        output.to_csv(f'{TABLEAU_FOLDER}/student_analytics_noimages.csv', index=False)
+
+        return(student_analytics)
+        
+    except Exception as e:
+        print(f"error: {e}")
+
 
 def course_assignments_and_dates(student_analytics):
+    # NOT USED
     student_analytics = student_analytics[student_analytics['global_user_id'].notna()]
 
     first_date = student_analytics['access_date'].min()
@@ -103,9 +136,9 @@ def transform_for_tableau_fn():
     
     combine_course_structure()
     stud_analytics = combine_enrollment_and_new_analytics()
-    course_assignments_and_dates(stud_analytics)
+    #course_assignments_and_dates(stud_analytics) 
     clean_submissions_data()
-    clean_gradebook_data()
+    #clean_gradebook_data()
 
     print_success("Data formatted for Tableau complete!")
 

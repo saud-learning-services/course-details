@@ -112,6 +112,25 @@ You should now see the folders for your course:
     - tableau_data
 - user_input
 
+---
+## Pull Multiple Courses (WIP)
+
+`src/pull_multiple_courses.py`
+
+New script: `src/pull_multiple_courses.py` which will only get course data and exclude any user data:
+
+Excludes:
+* gradebook
+* new analytics
+* enrollments
+* assignment permissions
+* tableau-specific output
+
+At end of execution, creates `data/subaccount_info.csv` where for each course it will specify:
+`[course_id, course_name, subaccount_id, subaccount_name]`
+
+> Logic for matching courses and subaccount was taken from the `subaccount-movement` script
+> ⚠️ Note that if `subaccount-movement` logic changes (it often does) this will need to be manually updated
 
 
 ## 🌟 Acknowledgements & Contributions

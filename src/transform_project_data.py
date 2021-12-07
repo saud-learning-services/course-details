@@ -1,23 +1,22 @@
 import pandas as pd
 import sys
 from helpers import create_folder, schema_rename_and_drop_columns
-import settings
 import data_details
 
 
 
-def transform_data(detail_dict, drop_rest=False):
+def transform_data(config, detail_dict, drop_rest=False):
     # TODO ADD DATE TO FILE AS HEADER
     file = f'{detail_dict["name"]}'
-    schema_file = f'{settings.SCHEMAS_FOLDER}/{file}.txt'
+    schema_file = f'{config["schemas_folder"]}/{file}.txt'
     rename_dict = detail_dict["rename_dict"]
 
-    in_file =  f'{settings.ORIGINALDATA_FOLDER}/{file}.csv'
-    out_file = f'{settings.CLEANEDDATA_FOLDER}/{file}.csv'
+    in_file =  f'{config["originaldata_folder"]}/{file}.csv'
+    out_file = f'{config["cleaneddata_folder"]}/{file}.csv'
 
 
     tem = sys.stdout
-    sys.stdout = f = open(f'{settings.CLEANDDATA_TRACKING_TRANSFORMATIONS}/{file}.md', 'w')
+    sys.stdout = f = open(f'{config["cleaneddata_tracking_transformations"]}/{file}.md', 'w')
     
     print(f'# {file}')
     
@@ -30,7 +29,7 @@ def transform_data(detail_dict, drop_rest=False):
 
     print(f'\nWRITING: {out_file}.csv\n')
     df.to_csv(f'{out_file}', index=False)
-    data_dict[data_dict['change_note']!='deleted'].to_csv(f'{settings.CLEANDDATA_TRACKING_TRANSFORMATIONS}/{file}_schema.csv', index=False)
+    data_dict[data_dict['change_note']!='deleted'].to_csv(f'{config["cleaneddata_tracking_transformations"]}/{file}_schema.csv', index=False)
     
     sys.stdout = tem
     f.close()
@@ -39,19 +38,21 @@ def transform_data(detail_dict, drop_rest=False):
 
 # MOST OF THESE FOLDERS NEED TO CHANGE
 
-def transform_project_data_fn():
-    create_folder(settings.CLEANEDDATA_FOLDER)
-    create_folder(settings.CLEANDDATA_TRACKING_TRANSFORMATIONS)
+def transform_project_data_fn(config):
+    create_folder(config["cleaneddata_folder"])
+    create_folder(config["cleaneddata_tracking_transformations"])
 
-    transform_data(data_details.ASSIGNMENTS_DICT, True)
-    transform_data(data_details.MODULEITEMS_DICT, True)
-    transform_data(data_details.MODULES_DICT, True)
-    transform_data(data_details.PAGES_DICT, True)
-    transform_data(data_details.QUIZZES_DICT, True)
-    transform_data(data_details.ASSIGNMENTSUBMISSIONS_DICT, True)
-    transform_data(data_details.ENROLLMENTS_DICT, True)
-    transform_data(data_details.NEWANALYTICS_DICT, True)
-    transform_data(data_details.GRADEBOOKUSERDATA_DICT, True)
+    if config["with_user_data"]:
+        transform_data(config, data_details.ENROLLMENTS_DICT, True)
+        transform_data(config, data_details.ASSIGNMENTSUBMISSIONS_DICT, True)
+        transform_data(config, data_details.NEWANALYTICS_DICT, True)
+        transform_data(config, data_details.GRADEBOOKUSERDATA_DICT, True)
+
+    transform_data(config, data_details.ASSIGNMENTS_DICT, True)
+    transform_data(config, data_details.MODULEITEMS_DICT, True)
+    transform_data(config, data_details.MODULES_DICT, True)
+    transform_data(config, data_details.PAGES_DICT, True)
+    transform_data(config, data_details.QUIZZES_DICT, True)
 
 if __name__ == "__main__":
     transform_project_data_fn()

@@ -1,12 +1,10 @@
 import pandas as pd
-import sys
-import json
 import numpy as np
 import datetime
 import re
 import ast
-from settings import CLEANEDDATA_FOLDER, TABLEAU_FOLDER, INST_CODE
-from helpers import create_folder
+from settings import INST_CODE, COURSE_ID
+from helpers import create_folder, create_config
 from interface import print_success
 
 def _extract_file_type(somestring):
@@ -28,24 +26,24 @@ def _parse_date_time(str):
     except:
         pass
 
-def combine_course_structure():
+def combine_course_structure(config):
 
-    module_items = pd.read_csv(f'{CLEANEDDATA_FOLDER}/module_items.csv')
-    modules = pd.read_csv(f'{CLEANEDDATA_FOLDER}/modules.csv')
+    module_items = pd.read_csv(f'{config["cleaneddata_folder"]}/module_items.csv')
+    modules = pd.read_csv(f'{config["cleaneddata_folder"]}/modules.csv')
     modules_and_items = module_items.merge(modules, on=["course_id", "module_id"])
     modules_and_items['item_order'] = modules_and_items.apply(lambda x: x['module_position'] 
                                                             + x['module_item_position']/100, axis=1)
     modules_and_items['item_overall_order'] = np.arange(len(modules_and_items.sort_values('item_order')))
-    modules_and_items.to_csv(f'{TABLEAU_FOLDER}/module_and_items.csv', index=False)
+    modules_and_items.to_csv(f'{config["tableau_folder"]}/module_and_items.csv', index=False)
 
 
-def combine_enrollment_and_new_analytics():
+def combine_enrollment_and_new_analytics(config):
 
-    new_analytics =  pd.read_csv(f'{CLEANEDDATA_FOLDER}/new_analytics.csv')
+    new_analytics =  pd.read_csv(f'{config["cleaneddata_folder"]}/new_analytics.csv')
     new_analytics['user_id'] = new_analytics['global_user_id'].apply(lambda x: int(x)-INST_CODE)
     new_analytics['course_id'] = new_analytics['global_course_id'].apply(lambda x: int(x)-INST_CODE)
 
-    enrollment = pd.read_csv(f'{CLEANEDDATA_FOLDER}/enrollments.csv')
+    enrollment = pd.read_csv(f'{config["cleaneddata_folder"]}/enrollments.csv')
 
     try:
         # filter to active student data only
@@ -63,7 +61,7 @@ def combine_enrollment_and_new_analytics():
         user_scores["gb_current_score"] = user_scores["grades"].apply(lambda x: get_value(x, "current_score"))
         user_scores["gb_final_score"] = user_scores["grades"].apply(lambda x: get_value(x, "final_score"))
         user_scores = user_scores[["user_id", "student", "user_role", "gb_current_score", "gb_final_score"]]
-        user_scores.to_csv(f"{TABLEAU_FOLDER}/user_final_score.csv", index=False)
+        user_scores.to_csv(f'{config["tableau_folder"]}/user_final_score.csv', index=False)
 
 
         enrollment = enrollment[["user_id", "student", "enrollment_type", "enrollment_state"]]
@@ -86,7 +84,7 @@ def combine_enrollment_and_new_analytics():
         student_analytics['filetype'] = student_analytics["content_name"].apply(lambda x: _extract_file_type(x))
         student_analytics = student_analytics.query("`filetype` == @keepfiles")
         output = student_analytics.drop(["global_user_id", "global_course_id"], axis=1)
-        output.to_csv(f'{TABLEAU_FOLDER}/student_analytics_noimages.csv', index=False)
+        output.to_csv(f'{config["tableau_folder"]}/student_analytics_noimages.csv', index=False)
 
         return(student_analytics)
         
@@ -94,7 +92,7 @@ def combine_enrollment_and_new_analytics():
         print(f"error: {e}")
 
 
-def course_assignments_and_dates(student_analytics):
+def course_assignments_and_dates(config, student_analytics):
     # NOT USED
     student_analytics = student_analytics[student_analytics['global_user_id'].notna()]
 
@@ -105,42 +103,43 @@ def course_assignments_and_dates(student_analytics):
     dates_df = pd.DataFrame({"date": all_dates})
     dates_df["date"] = dates_df["date"].apply(lambda x: str(x))
 
-    assignments = pd.read_csv(f'{CLEANEDDATA_FOLDER}/assignments.csv')
+    assignments = pd.read_csv(f'{config["cleaneddata_folder"]}/assignments.csv')
     assignments = assignments[['assignment_id', 'assignment_due_at', 'assignment_title']]
 
 
 
     assignments['date'] = assignments['assignment_due_at'].apply(lambda x: _parse_date_time(x))
     dates_df = dates_df.merge(assignments, on="date", how="left")
-    dates_df.to_csv(f"{TABLEAU_FOLDER}/course_dates.csv")
+    dates_df.to_csv(f'{config["tableau_folder"]}/course_dates.csv')
 
 
-def clean_submissions_data():
-    gb_info = pd.read_csv(f'{CLEANEDDATA_FOLDER}/assignments.csv')
+def clean_submissions_data(config):
+    gb_info = pd.read_csv(f'{config["cleaneddata_folder"]}/assignments.csv')
     gb_info = gb_info.drop(['assignment_description', 'assignment_workflow_state',\
                             'assignment_is_quiz', 'assignment_is_published'], axis=1)
 
-    submissions_df = pd.read_csv(f'{CLEANEDDATA_FOLDER}/assignment_submissions.csv').drop('course_id', axis=1)
+    submissions_df = pd.read_csv(f'{config["cleaneddata_folder"]}/assignment_submissions.csv').drop('course_id', axis=1)
     submissions_df = submissions_df.merge(gb_info)
 
     submissions_df['percent_score'] = submissions_df.apply(lambda x: x['assignment_score']/x['assignment_points_possible'] if x['assignment_points_possible'] > 0 else None, axis=1)
-    submissions_df.to_csv(f'{TABLEAU_FOLDER}/student_assignment_details.csv')
+    submissions_df.to_csv(f'{config["tableau_folder"]}/student_assignment_details.csv')
 
-def clean_gradebook_data():
-    gb_data = pd.read_csv(f'{CLEANEDDATA_FOLDER}/gradebook_user_data.csv') 
-    gb_data.to_csv(f"{TABLEAU_FOLDER}/user_final_score.csv", index=False)
+def clean_gradebook_data(config):
+    gb_data = pd.read_csv(f'{config["cleaneddata_folder"]}/gradebook_user_data.csv') 
+    gb_data.to_csv(f'{config["tableau_folder"]}/user_final_score.csv', index=False)
 
-def transform_for_tableau_fn():
+def transform_for_tableau_fn(config):
 
-    create_folder(TABLEAU_FOLDER)
+    create_folder(config["tableau_folder"])
     
-    combine_course_structure()
-    stud_analytics = combine_enrollment_and_new_analytics()
+    combine_course_structure(config)
+    stud_analytics = combine_enrollment_and_new_analytics(config)
     #course_assignments_and_dates(stud_analytics) 
-    clean_submissions_data()
+    clean_submissions_data(config)
     #clean_gradebook_data()
 
     print_success("Data formatted for Tableau complete!")
 
 if __name__ == "__main__":
-    transform_for_tableau_fn()
+    config = create_config(COURSE_ID)
+    transform_for_tableau_fn(config)

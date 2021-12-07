@@ -217,3 +217,37 @@ def schema_rename_and_drop_columns(df, rename_dict, schema_file, drop_rest=False
     df.rename(rename_dict, axis=1, inplace=True)
     return(df, changed_cols_df)
     
+def create_config(course_id, with_user_data=True):
+    data_folder = f'data/{course_id}'
+
+    project_folder = f'{data_folder}/project_data'
+    raw_folder = f'{data_folder}/user_input'
+
+    originaldata_folder = f'{project_folder}/original_data'
+    apioutput_folder = f'{originaldata_folder}' 
+
+    newanalytics_folder = f'{raw_folder}/new_analytics_input'
+    gradebook_folder = f'{raw_folder}/gradebook_input'
+
+    schemas_folder = 'schemas' #included in project
+
+    cleaneddata_folder = f'{project_folder}/cleaned_data'
+    cleaneddata_tracking_transformations = f'{cleaneddata_folder}/transformations'
+
+    tableau_folder = f'{project_folder}/tableau_data'
+
+    return {
+        "course_id": course_id,
+        "data_folder": data_folder,
+        "project_folder": project_folder,
+        "raw_folder": raw_folder,
+        "originaldata_folder": originaldata_folder,
+        "apioutput_folder": apioutput_folder,
+        "newanalytics_folder": newanalytics_folder,
+        "gradebook_folder": gradebook_folder,
+        "schemas_folder": schemas_folder,
+        "cleaneddata_folder": cleaneddata_folder,
+        "cleaneddata_tracking_transformations": cleaneddata_tracking_transformations,
+        "tableau_folder": tableau_folder,
+        "with_user_data": with_user_data
+    }

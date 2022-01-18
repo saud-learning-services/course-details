@@ -7,6 +7,42 @@ from shutil import copyfile
 from yaspin import yaspin
 import pandas as pd
 import json
+from canvasapi import Canvas
+
+
+def get_account_courses(account):
+    """Creates a dictionary of each course's properties and puts them into a data frame
+    
+    Args:
+        account (account): the account or sub-account containing desired courses
+        
+    Returns: 
+         a dataframe containing the courses in  account along with their properties
+    """
+    
+    #get courses from account
+    print("Getting courses from account.\n")
+
+    courses = account.get_courses(per_page=50,
+                                include=["term", "account_name", "account"])
+    
+    #create a dataframe populated with dictionaries of each course's fields
+    all_courses = []
+    for c in courses:
+        course_dict = {"course_id": c.id,
+                    "name": c.name,
+                    "course_code": c.course_code,
+                    "account_id": c.account_id,
+                    "parent_account_id": c.account["parent_account_id"],
+                    "root_account_id": c.account["root_account_id"],
+                    "account_name": c.account["id"],
+                    "term_name": c.term["name"],
+                    "term_id": c.term["id"]
+                    }
+        #Q: is it necessary to put the dictionaries in a list before putting them in a dataframe. if so, why?
+        all_courses.append(course_dict)    
+    course_df = pd.DataFrame(all_courses)
+    return(course_df)
 
 def get_course_code():
     try:

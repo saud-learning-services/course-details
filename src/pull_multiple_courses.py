@@ -11,12 +11,15 @@ import pandas as pd
 if __name__ == "__main__":
     # Create output in data folder
 
-    canvas = create_canvas_object()
-    account = canvas.get_account(454)
+    canvas, auth = create_canvas_object()
+    account = canvas.get_account(456)
 
     courses_df = get_account_courses(account)
+
+    TERM_FILTER = 235
+    courses_df = courses_df[courses_df['term_id'] == TERM_FILTER]
     
-    courses_df.to_csv("courses_details.csv")
+    courses_df.to_csv(f"data/courses_details_{TERM_FILTER}.csv")
 
     COURSE_IDS = list(courses_df['course_id'])
 

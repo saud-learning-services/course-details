@@ -60,10 +60,8 @@ def get_course_data(course, output_folder, with_user_data=True):
     data_details.MODULEITEMS_DICT = helpers.create_df_and_csv(course.get_modules(), data_details.MODULEITEMS_DICT, output_folder, "get_module_items") # course
 
 
-def create_course_output(config):
-    # establish canvas connection
-    canvas, auth_header = create_canvas_object()
-    
+def create_course_output(canvas, config):
+    # establish canvas connection    
     #get the course
     # COURSE_ID = settings.COURSE_ID
 

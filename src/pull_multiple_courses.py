@@ -18,7 +18,6 @@ if __name__ == "__main__":
 
     TERM_FILTER = 235
     courses_df = courses_df[courses_df['term_id'] == TERM_FILTER]
-    
     courses_df.to_csv(f"data/courses_details_{TERM_FILTER}.csv")
 
     COURSE_IDS = list(courses_df['course_id'])
@@ -26,7 +25,7 @@ if __name__ == "__main__":
     for course_id in COURSE_IDS:
         config = create_config(course_id, with_user_data=False)
         print(config)
-        create_course_output(config)
+        create_course_output(canvas, config)
         transform_project_data_fn(config)
 
 

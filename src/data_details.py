@@ -128,6 +128,7 @@ NEWANALYTICS_DICT = {
     "rename_dict": {
             'globalStudentId': 'global_user_id',
             'globalCourseId': 'global_course_id',
+            'studentName': 'student_name',
             'contentType': 'content_type',
             'contentName': 'content_name',
             'pageviewCount': 'pageview_count',

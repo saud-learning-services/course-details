@@ -1,10 +1,9 @@
 
 # Canvas Course Details
 
-> THIS IS A WIP PROJECT
-> Questions? Talk to Alison :) 
+> The "Ikea" Project
 
-Given a course id, extracts details of course and combines with collected New Analytics extracts.
+Given a course id, extracts details of course and combines with collected New Analytics extracts. Demo dashboard: 
 
 ## 🗂 Data
 ### Skeleton
@@ -12,9 +11,7 @@ Given a course id, extracts details of course and combines with collected New An
 - [quizzes](https://canvas.instructure.com/doc/api/quizzes#method.quizzes/quizzes_api.index) 
 - [pages](https://canvas.instructure.com/doc/api/pages#method.wiki_pages_api.index)
 - [enrollments](https://canvas.instructure.com/doc/api/enrollments.html#method.enrollments_api.index)
-- [tabs (navigation)](https://canvas.instructure.com/doc/api/tabs.html#method.tabs.index) [NOT IMPLEMENTED]
-- *external tools* 
-- features
+- [tabs (navigation)](https://canvas.instructure.com/doc/api/tabs.html#method.tabs.index) 
 - [discussion_topics](https://canvas.instructure.com/doc/api/discussion_topics.html#method.discussion_topics.index)
 - [modules](https://canvas.instructure.com/doc/api/modules.html#method.context_modules_api.index)
 - [module_items](https://canvas.instructure.com/doc/api/modules.html#method.context_module_items_api.index)
@@ -22,6 +19,7 @@ Given a course id, extracts details of course and combines with collected New An
 
 ### Course Details
 - page_links *TODO*
+  
 ### Student Details
 - student_discussion_responses *TODO*
 - [student_submissions](https://canvas.instructure.com/doc/api/submissions#method.submissions_api.for_students)

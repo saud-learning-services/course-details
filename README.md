@@ -3,7 +3,7 @@
 
 > The "Ikea" Project
 
-Given a course id, extracts details of course and combines with collected New Analytics extracts. Demo dashboard: 
+Given a course id, extracts details of course and combines with collected New Analytics extracts. Demo dashboard: [IKEA Model Demo Dashboard](https://public.tableau.com/app/profile/leah.macfadyen/viz/IKEAModelDashboardPrototype2023/CourseActivityOverview)
 
 ## 🗂 Data
 ### Skeleton

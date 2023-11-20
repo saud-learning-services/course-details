@@ -99,7 +99,7 @@ You just need to run one command and follow the prompts:
 
 Note: this will replace any existing data if you have extracted data before. There will also be a number of inputs in terminal to enter. 
 
-**If you've sucessfully run all of the scripts, then you're done!** 
+**If you've successfully run all of the scripts, then you're done!** 
 
 You should now see the folders for your course:
 

@@ -112,7 +112,7 @@ You should now see the folders for your course:
 
 ## Tableau Demo Dashboard and Data
 
-We have included a zip file `Demo Dashboard and Data.zip` that contains sample data in the form you would find in `project_data/tableau_data`. You should be able to replace the data with your own in the Tableau workbook. See Tableau's guides to updating / replacing data sources: <https://help.tableau.com/current/pro/desktop/en-us/connect_basic_replace.htm> 
+We have included a zip file `Demo Dashboard and Data.zip` that contains sample data in the form you would find in `project_data/tableau_data`. The sample data itself may not be accurate, for instance the assignments don't add up to the final grade - it is simply for demonstration purposes. You should be able to replace the data with your own in the Tableau workbook. See Tableau's guides to updating / replacing data sources: <https://help.tableau.com/current/pro/desktop/en-us/connect_basic_replace.htm> 
 
 Here are the connections between the data sources
 

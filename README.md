@@ -3,7 +3,7 @@
 
 > The "Ikea" Project
 
-Given a course id, extracts details of course and combines with collected New Analytics extracts. Demo dashboard: [IKEA Model Demo Dashboard](https://public.tableau.com/app/profile/leah.macfadyen/viz/IKEAModelDashboardPrototype2023/CourseActivityOverview)
+Given a course id, extracts details of course and combines with collected New Analytics extracts. 
 
 ## 🗂 Data
 ### Skeleton
@@ -110,6 +110,13 @@ You should now see the folders for your course:
     - tableau_data
 - user_input
 
+## Tableau Demo Dashboard and Data
+
+We have included a zip file `Demo Dashboard and Data.zip` that contains sample data in the form you would find in `project_data/tableau_data`. You should be able to replace the data with your own in the Tableau workbook. See Tableau's guides to updating / replacing data sources: <https://help.tableau.com/current/pro/desktop/en-us/connect_basic_replace.htm> 
+
+Here are the connections between the data sources
+
+![tableau_data_connections](img/tableau_data_connections.png)
 
 
 ## 🌟 Acknowledgements & Contributions

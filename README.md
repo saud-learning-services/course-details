@@ -30,6 +30,19 @@ Given a course id, extracts details of course and combines with collected New An
 
 
 ## 🚀 Use
+
+### Downloading New Analytics
+
+The project relies on a regular download of Canvas's New Analytics data, and assumes you use the **direct download**. The direct download and the "regular" download have different file headings, but the activity data should be the same. On a regular (bi-weekly, every third week) basis, you should be downloading the New Analytics data - the scripts will prompt you to add the data to the correct folder when needed.
+
+1. Navigate to New Analytics -> `Reports`
+2. Select `Run Report` for Course Activity
+3. Select the `(info)` icon next to Results
+4. Select `direct download` to download the full dataset
+
+![image](https://github.com/saud-learning-services/course-details/assets/22600917/186887df-b3d5-43d6-94d8-bd610d3c051e)
+
+
 ### Computer Setup
 
 1. We use conda, and suggest miniconda for your projects: [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html) -> whichever the latest 3.x version is, use the 'pkg' version if you are unfamiliar with bash
